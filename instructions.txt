@@ -1,0 +1,133 @@
+Here’s a comprehensive set of development instructions tailored for Cursor to create a sleek, industry-inspired booking and management platform for musicians and venues. This includes guidelines on features, branding, functionality, styling, pages and interactions, and interface principles, as well as suggested component packages and libraries.
+
+---
+
+### **Development Instructions for Cursor: Musician & Venue Management Platform**
+
+---
+
+#### **1. Features Overview**
+
+   - **User Profiles**: For both musicians and venues, including sections for preferences (e.g., stage plot, backline setup), equipment preferences, contact info, and saved documents.
+   - **Bookings**: A calendar and list view with color-coded booking statuses, allowing musicians and venues to organize, confirm, and track live performances.
+   - **Payment Management**: Track earnings, initiate payouts, and automatically generate tax documents like 1099s, along with receipt and invoice storage.
+   - **Document Generation**: Automate document workflows for contracts, invoices, and tax forms, with downloadable and e-signable PDF options.
+
+---
+
+#### **2. Branding & Styling**
+
+   - **Visual Style**:
+     - Modern, minimalist, and music-industry-inspired with sleek, flat iconography.
+     - **Colors**: Dark tones (deep blacks and charcoals) for backgrounds, with high-contrast, vibrant accents like electric blues or purples.
+     - **Typography**: Use sans-serif fonts like Helvetica Neue, Inter, or Gotham for readability and professionalism, with thin-line fonts for headings.
+
+   - **UI Components**:
+     - **Buttons**: Rounded, minimal, and accented with vibrant colors for primary actions (e.g., "Create Booking," "Generate 1099").
+     - **Cards**: For bookings and profiles, using elevated cards with hover shadows and slight gradients to create depth.
+     - **Icons**: Flat, monochromatic icons that provide a simple, recognizable language for users, e.g., calendar, profile, payment, settings.
+
+---
+
+#### **3. Functionality**
+
+   - **Automated Document Creation**:
+     - **1099s and Invoices**: Allow users to select a time range and automatically generate pre-filled PDFs.
+     - **Contracts**: Template-based contract creation for venues and musicians, pre-filled with data from profiles.
+
+   - **Calendar & Booking Management**:
+     - **Calendar View**: Clickable dates with tooltips showing event details on hover.
+     - **List View**: Compact, mobile-friendly list of upcoming and past bookings, filterable by status (e.g., pending, confirmed, completed).
+     - **Notifications**: Real-time booking updates, reminders for upcoming events, and payout confirmations.
+
+   - **Payment Integration**:
+     - Use **Stripe** for payment processing, with features for handling payouts, payment history, and status tracking.
+     - Payout countdown and pending payment summaries to give users insight into their finances.
+
+---
+
+#### **4. Pages & Interactions**
+
+1. **Home Dashboard**
+   - **Content**: Overview of bookings, recent payments, and notifications.
+   - **Interactions**: Interactive cards summarizing recent activities and one-tap access to booking or payment actions.
+   - **Styling**: Three main card layouts with hover effects, separated by subtle dividers to enhance the clean, minimal feel.
+
+2. **Bookings**
+   - **Calendar View**: Month and day view options, with color-coded statuses for quick reference.
+   - **Booking Details Modal**: Opens upon click, with editable fields (date, time, location, setup details).
+   - **List View**: Table layout, sortable by date, location, and status, with inline action buttons.
+
+3. **Profile Management**
+   - **User Information**: Editable fields for contact, equipment preferences, and performance details.
+   - **Stage Setup**: Graphical UI for specifying layout and equipment preferences.
+   - **File Uploads**: Section for documents (contracts, W-9s, tax forms) with direct upload and download capabilities.
+
+4. **Payments**
+   - **Payout Summary**: Total earnings, pending payments, and action buttons for document generation.
+   - **Payment History**: List view showing past payments, amount, and downloadable receipts.
+
+---
+
+#### **5. Interface Principles**
+
+   - **Minimalist & Elegant**:
+     - Prioritize clean interfaces with ample white space and clear hierarchy.
+     - Use sleek typography and lightweight elements, with interactive elements emphasized via subtle animations.
+   
+   - **Consistency**:
+     - Maintain consistent styles across pages with standard button and card designs.
+     - Ensure icons are intuitive, and color-coded status indicators (e.g., green for confirmed, red for pending) are consistent.
+   
+   - **Intuitive Interactions**:
+     - Implement hover and click effects to provide feedback.
+     - Use draggable booking elements on the calendar for easy updates, and display details in tooltips or pop-ups.
+
+---
+
+#### **6. Component Packages & Libraries**
+
+   - **UI Components & Layouts**:
+     - **Ant Design** or **Material-UI**: Provide a modern and customizable component library, ideal for dashboards and calendar interfaces.
+     - **ShadeCn**: Use for inspiration on sleek card layouts and interaction models.
+   
+   - **Forms & Validation**:
+     - **Formik** with **Yup** for form handling and validation.
+     - **React Hook Form** as a lightweight alternative if minimal form handling is needed.
+
+   - **Calendar Integration**:
+     - **FullCalendar**: Provides a flexible calendar component with support for drag-and-drop events and custom styling.
+   
+   - **Payment Processing**:
+     - **Stripe API** for handling payments, integrating with their dashboard for payout, history, and document management.
+
+   - **PDF Generation & Document Management**:
+     - **PDFKit** for generating custom PDFs (contracts, 1099s).
+     - **DocuSign API** or **HelloSign** for e-signature support on generated documents.
+
+   - **State Management**:
+     - **Redux** or **Zustand**: For efficient state handling, particularly for dynamic elements like calendar events and payment statuses.
+   
+   - **Styling & Animations**:
+     - **Styled Components** or **Emotion** for CSS-in-JS styling, enabling custom themes and scoped component styles.
+     - **Framer Motion**: To add sleek, smooth animations for transitions, tooltips, and hover effects.
+
+---
+
+#### **7. Example Interface Principles & Best Practices**
+
+   - **Component-Based Design**:
+     - Use modular components (e.g., Calendar, PaymentCard, ProfileSection) that can be reused across the platform.
+     - Focus on encapsulating individual elements (e.g., BookingCard, StagePlot) for maintainability and ease of updates.
+   
+   - **Accessibility**:
+     - Ensure all interactive elements are accessible via keyboard navigation.
+     - Follow contrast standards to ensure text and interactive components are legible against dark backgrounds.
+
+   - **Responsive Design**:
+     - Adopt a mobile-first approach, ensuring that pages adapt seamlessly to mobile and tablet views.
+     - Use responsive grid layouts for bookings, payments, and calendar views.
+
+---
+
+This setup gives you a streamlined, component-based architecture to quickly develop a high-quality MVP on Cursor with industry-inspired styling and best practices for scalability. Let me know if you need guidance on specific aspects!
