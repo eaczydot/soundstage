@@ -26,13 +26,13 @@ export function BookingMetrics() {
       title: "Unique Venues",
       value: "15",
       change: "+4",
-      icon: Users,
-      description: "this quarter"
+      icon: MapPin,
+      description: "new venues"
     },
     {
-      title: "Booking Rate",
-      value: "85%",
-      change: "+10.3%",
+      title: "Acceptance Rate",
+      value: "89%",
+      change: "+5.2%",
       icon: TrendingUp,
       description: "acceptance rate"
     }

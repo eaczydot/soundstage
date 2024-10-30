@@ -7,10 +7,10 @@ export default function RecommendationsPage() {
   return (
     <div className="flex flex-col gap-6">
       <RecommendationsHeader />
-      <div className="grid gap-6 md:grid-cols-2">
+      <div className="grid gap-6">
         <VenueRecommendations />
         <DateRecommendations />
-        <SetupRecommendations className="md:col-span-2" />
+        <SetupRecommendations />
       </div>
     </div>
   )

@@ -1,5 +1,5 @@
 import { Button } from "@/components/ui/button"
-import { PlusCircle, Calendar } from "lucide-react"
+import { PlusCircle } from "lucide-react"
 
 export function MarketingHeader() {
   return (

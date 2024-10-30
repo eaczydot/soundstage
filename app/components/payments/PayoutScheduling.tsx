@@ -13,7 +13,7 @@ import {
 import { Label } from "@/components/ui/label"
 import { Input } from "@/components/ui/input"
 import { Switch } from "@/components/ui/switch"
-import { Calendar, DollarSign, Clock } from "lucide-react"
+import { Calendar, DollarSign } from "lucide-react"
 
 export function PayoutScheduling() {
   const [scheduleType, setSchedululeType] = useState("automatic")

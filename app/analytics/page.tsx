@@ -8,10 +8,10 @@ export default function AnalyticsPage() {
   return (
     <div className="flex flex-col gap-6">
       <AnalyticsHeader />
-      <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-4">
+      <div className="grid gap-6 grid-cols-4">
         <BookingMetrics />
       </div>
-      <div className="grid gap-6 md:grid-cols-2">
+      <div className="grid gap-6 grid-cols-2">
         <RevenueChart />
         <PaymentStatus />
       </div>

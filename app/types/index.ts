@@ -61,4 +61,4 @@ export interface Equipment {
   specifications?: Record<string, string>
 }
 
-export type EquipmentType = 'instrument' | 'sound' | 'lighting' | 'stage' | 'other' 
+export type EquipmentType = 'instrument' | 'sound' | 'lighting' | 'stage' | 'other'

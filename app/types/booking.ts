@@ -1,9 +1,9 @@
 export interface Booking {
-  id: string | number
+  id: number | string
   venue: string
   date: string
   time: string
-  status: 'confirmed' | 'pending' | 'cancelled'
-  notes?: string
+  status: 'pending' | 'confirmed' | 'cancelled' | 'completed'
   amount?: number
+  requirements?: string[]
 } 

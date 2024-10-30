@@ -1,13 +1,13 @@
-import { MainLayout } from '@/components/layout/MainLayout'
 import './globals.css'
 import type { Metadata } from 'next'
 import { Inter } from 'next/font/google'
+import { MainLayout } from '@/components/layout/MainLayout'
 
 const inter = Inter({ subsets: ['latin'] })
 
 export const metadata: Metadata = {
-  title: 'Musician & Venue Management Platform',
-  description: 'Streamline your music venue bookings and management',
+  title: 'Soundstage',
+  description: 'Musician & Venue Management Platform',
 }
 
 export default function RootLayout({

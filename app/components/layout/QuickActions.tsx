@@ -1,13 +1,13 @@
 'use client'
 
-import { Plus } from "lucide-react"
+import { Button } from "@/components/ui/button"
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
-import { Button } from "@/components/ui/button"
+import { Plus } from "lucide-react"
 import { useRouter } from "next/navigation"
 
 export function QuickActions() {
@@ -21,17 +21,14 @@ export function QuickActions() {
         </Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent align="end">
-        <DropdownMenuItem onClick={() => router.push('/bookings/new')}>
+        <DropdownMenuItem onClick={() => router.push("/bookings/new")}>
           New Booking
         </DropdownMenuItem>
-        <DropdownMenuItem onClick={() => router.push('/documents/new')}>
-          Create Contract
+        <DropdownMenuItem onClick={() => router.push("/marketing/new")}>
+          Create Campaign
         </DropdownMenuItem>
-        <DropdownMenuItem onClick={() => router.push('/payments/new')}>
-          Request Payment
-        </DropdownMenuItem>
-        <DropdownMenuItem onClick={() => router.push('/documents/upload')}>
-          Upload Document
+        <DropdownMenuItem onClick={() => router.push("/events/new")}>
+          Create Event
         </DropdownMenuItem>
       </DropdownMenuContent>
     </DropdownMenu>

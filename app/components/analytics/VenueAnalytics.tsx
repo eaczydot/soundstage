@@ -28,30 +28,30 @@ export function VenueAnalytics() {
     {
       name: "The Blue Note",
       bookings: 12,
-      revenue: 4200,
-      averageRate: 350,
+      revenue: 6000,
+      averageRate: 500,
       trend: 'up',
       trendValue: '+15%',
-      rating: 4.8,
+      rating: 4.8
     },
     {
       name: "Jazz Corner",
       bookings: 8,
-      revenue: 2800,
-      averageRate: 350,
+      revenue: 3600,
+      averageRate: 450,
       trend: 'down',
       trendValue: '-5%',
-      rating: 4.6,
+      rating: 4.5
     },
     {
-      name: "The Velvet Room",
+      name: "Rhythm House",
       bookings: 6,
-      revenue: 2100,
-      averageRate: 350,
+      revenue: 2400,
+      averageRate: 400,
       trend: 'up',
       trendValue: '+8%',
-      rating: 4.7,
-    },
+      rating: 4.2
+    }
   ]
 
   return (

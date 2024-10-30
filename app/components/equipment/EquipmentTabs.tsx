@@ -9,8 +9,8 @@ export function EquipmentTabs() {
   return (
     <Tabs defaultValue="inventory" className="space-y-4">
       <TabsList>
-        <TabsTrigger value="inventory">My Inventory</TabsTrigger>
-        <TabsTrigger value="templates">Setup Templates</TabsTrigger>
+        <TabsTrigger value="inventory">Inventory</TabsTrigger>
+        <TabsTrigger value="setups">Stage Setups</TabsTrigger>
         <TabsTrigger value="venues">Venue Equipment</TabsTrigger>
       </TabsList>
 
@@ -18,7 +18,7 @@ export function EquipmentTabs() {
         <InventoryList />
       </TabsContent>
 
-      <TabsContent value="templates">
+      <TabsContent value="setups">
         <SetupTemplates />
       </TabsContent>
 

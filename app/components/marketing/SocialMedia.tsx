@@ -130,11 +130,11 @@ export function SocialMedia() {
           </div>
 
           <div className="space-y-2">
-            <Label>Image</Label>
+            <Label>Upload Image</Label>
             <div className="flex items-center gap-4">
               <Button variant="outline">
                 <ImageIcon className="mr-2 h-4 w-4" />
-                Upload Image
+                Choose Image
               </Button>
               {postData.image && (
                 <span className="text-sm text-muted-foreground">
@@ -148,7 +148,7 @@ export function SocialMedia() {
             <Label>Platforms</Label>
             <div className="space-y-2">
               <div className="flex items-center justify-between">
-                <div className="flex items-center space-x-2">
+                <div className="flex items-center gap-2">
                   <Facebook className="h-4 w-4" />
                   <span>Facebook</span>
                 </div>
@@ -160,7 +160,7 @@ export function SocialMedia() {
                 />
               </div>
               <div className="flex items-center justify-between">
-                <div className="flex items-center space-x-2">
+                <div className="flex items-center gap-2">
                   <Instagram className="h-4 w-4" />
                   <span>Instagram</span>
                 </div>
@@ -172,7 +172,7 @@ export function SocialMedia() {
                 />
               </div>
               <div className="flex items-center justify-between">
-                <div className="flex items-center space-x-2">
+                <div className="flex items-center gap-2">
                   <Twitter className="h-4 w-4" />
                   <span>Twitter</span>
                 </div>
@@ -193,114 +193,112 @@ export function SocialMedia() {
         </Button>
       </Card>
 
-      <div className="space-y-6">
-        <Card className="p-6">
-          <Tabs defaultValue="preview">
-            <TabsList className="mb-4">
-              <TabsTrigger value="preview">Preview</TabsTrigger>
-              <TabsTrigger value="scheduled">Scheduled</TabsTrigger>
-              <TabsTrigger value="insights">Insights</TabsTrigger>
-            </TabsList>
+      <Card className="p-6">
+        <Tabs defaultValue="preview">
+          <TabsList className="mb-4">
+            <TabsTrigger value="preview">Preview</TabsTrigger>
+            <TabsTrigger value="scheduled">Scheduled</TabsTrigger>
+            <TabsTrigger value="insights">Insights</TabsTrigger>
+          </TabsList>
 
-            <TabsContent value="preview">
-              <div className="border rounded-lg p-4 space-y-2">
-                <div className="flex items-center space-x-2">
-                  <Globe className="h-4 w-4" />
-                  <span className="font-medium">Social Preview</span>
-                </div>
-                <div className="space-y-2">
-                  <h3 className="font-bold">{postData.title}</h3>
-                  <p className="text-sm">
-                    {new Date(postData.date).toLocaleDateString()} at{" "}
-                    {postData.time}
-                  </p>
-                  <p className="text-sm">{postData.description}</p>
-                  <p className="text-sm text-blue-500">{postData.hashtags}</p>
-                </div>
+          <TabsContent value="preview">
+            <div className="border rounded-lg p-4 space-y-2">
+              <div className="flex items-center space-x-2">
+                <Globe className="h-4 w-4" />
+                <span className="font-medium">Social Preview</span>
               </div>
-            </TabsContent>
-
-            <TabsContent value="scheduled">
-              <div className="space-y-4">
-                {scheduledPosts.map((post) => (
-                  <div
-                    key={post.id}
-                    className="flex items-center justify-between p-3 border rounded-lg"
-                  >
-                    <div className="flex items-center gap-3">
-                      {post.platform === "facebook" && (
-                        <Facebook className="h-4 w-4" />
-                      )}
-                      {post.platform === "instagram" && (
-                        <Instagram className="h-4 w-4" />
-                      )}
-                      <div>
-                        <p className="font-medium capitalize">{post.platform}</p>
-                        <p className="text-sm text-muted-foreground">
-                          {post.date} at {post.time}
-                        </p>
-                      </div>
-                    </div>
-                    <Badge>{post.status}</Badge>
-                  </div>
-                ))}
+              <div className="space-y-2">
+                <h3 className="font-bold">{postData.title}</h3>
+                <p className="text-sm">
+                  {new Date(postData.date).toLocaleDateString()} at{" "}
+                  {postData.time}
+                </p>
+                <p className="text-sm">{postData.description}</p>
+                <p className="text-sm text-blue-500">{postData.hashtags}</p>
               </div>
-            </TabsContent>
+            </div>
+          </TabsContent>
 
-            <TabsContent value="insights">
-              <div className="space-y-6">
-                <div className="grid grid-cols-2 gap-4">
-                  <div className="p-4 border rounded-lg">
-                    <h4 className="font-medium mb-2">Engagement</h4>
-                    <div className="space-y-1">
-                      <p className="text-sm">Likes: {insights.engagement.likes}</p>
-                      <p className="text-sm">
-                        Shares: {insights.engagement.shares}
-                      </p>
-                      <p className="text-sm">
-                        Comments: {insights.engagement.comments}
-                      </p>
-                      <p className="text-sm text-green-500">
-                        Trend: {insights.engagement.trend}
+          <TabsContent value="scheduled">
+            <div className="space-y-4">
+              {scheduledPosts.map((post) => (
+                <div
+                  key={post.id}
+                  className="flex items-center justify-between p-3 border rounded-lg"
+                >
+                  <div className="flex items-center gap-3">
+                    {post.platform === "facebook" && (
+                      <Facebook className="h-4 w-4" />
+                    )}
+                    {post.platform === "instagram" && (
+                      <Instagram className="h-4 w-4" />
+                    )}
+                    <div>
+                      <p className="font-medium capitalize">{post.platform}</p>
+                      <p className="text-sm text-muted-foreground">
+                        {post.date} at {post.time}
                       </p>
                     </div>
                   </div>
-                  <div className="p-4 border rounded-lg">
-                    <h4 className="font-medium mb-2">Reach</h4>
-                    <div className="space-y-1">
-                      <p className="text-sm">Total: {insights.reach.total}</p>
-                      <p className="text-sm">Organic: {insights.reach.organic}</p>
-                      <p className="text-sm">Paid: {insights.reach.paid}</p>
-                      <p className="text-sm text-green-500">
-                        Trend: {insights.reach.trend}
-                      </p>
-                    </div>
+                  <Badge>{post.status}</Badge>
+                </div>
+              ))}
+            </div>
+          </TabsContent>
+
+          <TabsContent value="insights">
+            <div className="space-y-6">
+              <div className="grid grid-cols-2 gap-4">
+                <div className="p-4 border rounded-lg">
+                  <h4 className="font-medium mb-2">Engagement</h4>
+                  <div className="space-y-1">
+                    <p className="text-sm">Likes: {insights.engagement.likes}</p>
+                    <p className="text-sm">
+                      Shares: {insights.engagement.shares}
+                    </p>
+                    <p className="text-sm">
+                      Comments: {insights.engagement.comments}
+                    </p>
+                    <p className="text-sm text-green-500">
+                      Trend: {insights.engagement.trend}
+                    </p>
                   </div>
                 </div>
                 <div className="p-4 border rounded-lg">
-                  <h4 className="font-medium mb-2">Top Platforms</h4>
-                  <div className="space-y-2">
-                    {insights.topPlatforms.map((platform) => (
-                      <div key={platform.name} className="space-y-1">
-                        <div className="flex justify-between text-sm">
-                          <span>{platform.name}</span>
-                          <span>{platform.percentage}%</span>
-                        </div>
-                        <div className="h-2 bg-secondary rounded-full">
-                          <div
-                            className="h-full bg-primary rounded-full"
-                            style={{ width: `${platform.percentage}%` }}
-                          />
-                        </div>
-                      </div>
-                    ))}
+                  <h4 className="font-medium mb-2">Reach</h4>
+                  <div className="space-y-1">
+                    <p className="text-sm">Total: {insights.reach.total}</p>
+                    <p className="text-sm">Organic: {insights.reach.organic}</p>
+                    <p className="text-sm">Paid: {insights.reach.paid}</p>
+                    <p className="text-sm text-green-500">
+                      Trend: {insights.reach.trend}
+                    </p>
                   </div>
                 </div>
               </div>
-            </TabsContent>
-          </Tabs>
-        </Card>
-      </div>
+              <div className="p-4 border rounded-lg">
+                <h4 className="font-medium mb-2">Top Platforms</h4>
+                <div className="space-y-2">
+                  {insights.topPlatforms.map((platform) => (
+                    <div key={platform.name} className="space-y-1">
+                      <div className="flex justify-between text-sm">
+                        <span>{platform.name}</span>
+                        <span>{platform.percentage}%</span>
+                      </div>
+                      <div className="h-2 bg-secondary rounded-full">
+                        <div
+                          className="h-full bg-primary rounded-full"
+                          style={{ width: `${platform.percentage}%` }}
+                        />
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </div>
+          </TabsContent>
+        </Tabs>
+      </Card>
     </div>
   )
 } 

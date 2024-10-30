@@ -2,6 +2,9 @@
 
 import { useState } from "react"
 import { Card } from "@/components/ui/card"
+import { Input } from "@/components/ui/input"
+import { Button } from "@/components/ui/button"
+import { Badge } from "@/components/ui/badge"
 import {
   Table,
   TableBody,
@@ -10,10 +13,7 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table"
-import { Badge } from "@/components/ui/badge"
-import { Button } from "@/components/ui/button"
-import { Input } from "@/components/ui/input"
-import { Edit, Trash2, Search } from "lucide-react"
+import { Search, Plus, Edit, Trash2 } from "lucide-react"
 import {
   Select,
   SelectContent,
@@ -21,70 +21,49 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select"
-
-interface EquipmentItem {
-  id: string
-  name: string
-  category: string
-  condition: 'excellent' | 'good' | 'fair' | 'needs-repair'
-  notes?: string
-  lastUsed?: string
-}
+import { Equipment, EquipmentType } from "@/types"
 
 export function InventoryList() {
   const [searchTerm, setSearchTerm] = useState("")
-  const [categoryFilter, setCategoryFilter] = useState<string>("")
+  const [typeFilter, setTypeFilter] = useState<EquipmentType | "all">("all")
 
-  const equipment: EquipmentItem[] = [
+  const equipment: Equipment[] = [
     {
       id: "1",
       name: "Fender Jazz Bass",
-      category: "Instruments",
-      condition: "excellent",
-      lastUsed: "2024-02-15",
+      type: "instrument",
+      status: "available",
+      specifications: {
+        year: "2020",
+        color: "Sunburst",
+      },
     },
     {
       id: "2",
-      name: "Ampeg SVT-4PRO",
-      category: "Amplifiers",
-      condition: "good",
-      notes: "Needs new tubes soon",
-      lastUsed: "2024-02-10",
-    },
-    {
-      id: "3",
-      name: "Shure Beta 58A",
-      category: "Microphones",
-      condition: "excellent",
-      lastUsed: "2024-02-18",
+      name: "Shure SM58",
+      type: "sound",
+      status: "available",
+      specifications: {
+        type: "Dynamic",
+        pattern: "Cardioid",
+      },
     },
   ]
 
-  const getConditionColor = (condition: EquipmentItem['condition']) => {
-    switch (condition) {
-      case 'excellent':
-        return 'success'
-      case 'good':
-        return 'default'
-      case 'fair':
-        return 'warning'
-      case 'needs-repair':
-        return 'destructive'
-    }
-  }
-
-  const filteredEquipment = equipment.filter(item => {
-    const matchesSearch = item.name.toLowerCase().includes(searchTerm.toLowerCase())
-    const matchesCategory = !categoryFilter || item.category === categoryFilter
-    return matchesSearch && matchesCategory
+  const filteredEquipment = equipment.filter((item) => {
+    const matchesSearch = item.name
+      .toLowerCase()
+      .includes(searchTerm.toLowerCase())
+    const matchesType = typeFilter === "all" || item.type === typeFilter
+    return matchesSearch && matchesType
   })
 
   return (
     <Card>
-      <div className="p-4 space-y-4">
-        <div className="flex items-center gap-4">
-          <div className="flex-1">
-            <div className="relative">
+      <div className="p-6 space-y-6">
+        <div className="flex items-center justify-between gap-4">
+          <div className="flex-1 flex items-center gap-4">
+            <div className="relative flex-1">
               <Search className="absolute left-2 top-2.5 h-4 w-4 text-muted-foreground" />
               <Input
                 placeholder="Search equipment..."
@@ -93,53 +72,75 @@ export function InventoryList() {
                 className="pl-8"
               />
             </div>
+            <Select
+              value={typeFilter}
+              onValueChange={(value) => setTypeFilter(value as EquipmentType | "all")}
+            >
+              <SelectTrigger className="w-[180px]">
+                <SelectValue placeholder="All Types" />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="all">All Types</SelectItem>
+                <SelectItem value="instrument">Instruments</SelectItem>
+                <SelectItem value="sound">Sound</SelectItem>
+                <SelectItem value="lighting">Lighting</SelectItem>
+                <SelectItem value="stage">Stage</SelectItem>
+                <SelectItem value="other">Other</SelectItem>
+              </SelectContent>
+            </Select>
           </div>
-          <Select value={categoryFilter} onValueChange={setCategoryFilter}>
-            <SelectTrigger className="w-[180px]">
-              <SelectValue placeholder="All Categories" />
-            </SelectTrigger>
-            <SelectContent>
-              <SelectItem value="">All Categories</SelectItem>
-              <SelectItem value="Instruments">Instruments</SelectItem>
-              <SelectItem value="Amplifiers">Amplifiers</SelectItem>
-              <SelectItem value="Microphones">Microphones</SelectItem>
-            </SelectContent>
-          </Select>
+          <Button>
+            <Plus className="mr-2 h-4 w-4" />
+            Add Equipment
+          </Button>
         </div>
 
         <Table>
           <TableHeader>
             <TableRow>
               <TableHead>Name</TableHead>
-              <TableHead>Category</TableHead>
-              <TableHead>Condition</TableHead>
-              <TableHead>Last Used</TableHead>
-              <TableHead>Notes</TableHead>
-              <TableHead className="w-[100px]">Actions</TableHead>
+              <TableHead>Type</TableHead>
+              <TableHead>Status</TableHead>
+              <TableHead>Specifications</TableHead>
+              <TableHead className="text-right">Actions</TableHead>
             </TableRow>
           </TableHeader>
           <TableBody>
             {filteredEquipment.map((item) => (
               <TableRow key={item.id}>
                 <TableCell className="font-medium">{item.name}</TableCell>
-                <TableCell>{item.category}</TableCell>
+                <TableCell className="capitalize">{item.type}</TableCell>
                 <TableCell>
-                  <Badge variant={getConditionColor(item.condition)}>
-                    {item.condition}
+                  <Badge
+                    variant={
+                      item.status === "available"
+                        ? "success"
+                        : item.status === "unavailable"
+                        ? "destructive"
+                        : "secondary"
+                    }
+                  >
+                    {item.status}
                   </Badge>
                 </TableCell>
                 <TableCell>
-                  {item.lastUsed && new Date(item.lastUsed).toLocaleDateString()}
-                </TableCell>
-                <TableCell className="text-muted-foreground">
-                  {item.notes}
+                  {item.specifications && (
+                    <ul className="text-sm">
+                      {Object.entries(item.specifications).map(([key, value]) => (
+                        <li key={key}>
+                          <span className="font-medium capitalize">{key}:</span>{" "}
+                          {value}
+                        </li>
+                      ))}
+                    </ul>
+                  )}
                 </TableCell>
                 <TableCell>
-                  <div className="flex gap-2">
-                    <Button variant="ghost" size="icon">
+                  <div className="flex justify-end gap-2">
+                    <Button variant="ghost" size="sm">
                       <Edit className="h-4 w-4" />
                     </Button>
-                    <Button variant="ghost" size="icon">
+                    <Button variant="ghost" size="sm">
                       <Trash2 className="h-4 w-4" />
                     </Button>
                   </div>

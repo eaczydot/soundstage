@@ -22,42 +22,12 @@ import {
   SelectValue,
 } from "@/components/ui/select"
 import { Booking } from "@/types/booking"
+import { useStore } from "@/store"
 
 export function BookingsList() {
   const [searchTerm, setSearchTerm] = useState("")
   const [statusFilter, setStatusFilter] = useState<string>("")
-
-  const bookings: Booking[] = [
-    {
-      id: "1",
-      venue: "The Blue Note",
-      date: "2024-03-20",
-      time: "20:00",
-      status: "confirmed",
-      amount: 500,
-    },
-    {
-      id: "2",
-      venue: "Jazz Corner",
-      date: "2024-03-25",
-      time: "21:30",
-      status: "pending",
-      amount: 350,
-    },
-  ]
-
-  const getStatusColor = (status: Booking['status']) => {
-    switch (status) {
-      case 'confirmed':
-        return 'success'
-      case 'pending':
-        return 'warning'
-      case 'cancelled':
-        return 'destructive'
-      default:
-        return 'default'
-    }
-  }
+  const bookings = useStore((state) => state.bookings)
 
   const filteredBookings = bookings.filter(booking => {
     const matchesSearch = booking.venue.toLowerCase().includes(searchTerm.toLowerCase())
@@ -113,7 +83,11 @@ export function BookingsList() {
                 </TableCell>
                 <TableCell>{booking.time}</TableCell>
                 <TableCell>
-                  <Badge variant={getStatusColor(booking.status)}>
+                  <Badge variant={
+                    booking.status === 'confirmed' ? 'success' :
+                    booking.status === 'pending' ? 'warning' :
+                    'destructive'
+                  }>
                     {booking.status}
                   </Badge>
                 </TableCell>

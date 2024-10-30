@@ -1,22 +1,22 @@
 import { BookingsHeader } from "@/components/bookings/BookingsHeader"
-import { BookingsCalendar } from "@/components/bookings/BookingsCalendar"
 import { BookingsList } from "@/components/bookings/BookingsList"
+import { BookingsCalendar } from "@/components/bookings/BookingsCalendar"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 
 export default function BookingsPage() {
   return (
     <div className="flex flex-col gap-6">
       <BookingsHeader />
-      <Tabs defaultValue="calendar" className="w-full">
+      <Tabs defaultValue="list">
         <TabsList>
-          <TabsTrigger value="calendar">Calendar</TabsTrigger>
           <TabsTrigger value="list">List View</TabsTrigger>
+          <TabsTrigger value="calendar">Calendar View</TabsTrigger>
         </TabsList>
-        <TabsContent value="calendar" className="mt-6">
-          <BookingsCalendar />
-        </TabsContent>
-        <TabsContent value="list" className="mt-6">
+        <TabsContent value="list">
           <BookingsList />
+        </TabsContent>
+        <TabsContent value="calendar">
+          <BookingsCalendar />
         </TabsContent>
       </Tabs>
     </div>
