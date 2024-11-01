@@ -1,0 +1,37 @@
+name: Replit Setup
+
+on:
+  push:
+    branches: [ main ]
+  workflow_dispatch:
+
+jobs:
+  setup:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      
+      - name: Setup Node.js
+        uses: actions/setup-node@v2
+        with:
+          node-version: '18'
+          
+      - name: Install Dependencies
+        run: npm install
+        
+      - name: Build Project
+        run: npm run build
+        
+      - name: Create Replit Config
+        run: |
+          echo 'run = "npm run dev"' > .replit
+          echo 'entrypoint = "app/page.tsx"' >> .replit
+          
+      - name: Push to Replit Branch
+        run: |
+          git config --global user.name "GitHub Action"
+          git config --global user.email "action@github.com"
+          git checkout -b replit
+          git add .
+          git commit -m "Setup for Replit"
+          git push origin replit --force 

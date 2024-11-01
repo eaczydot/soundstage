@@ -1,0 +1,61 @@
+name: Deploy to Replit
+
+on:
+  push:
+    branches: [ main ]
+  workflow_dispatch:
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '18'
+          cache: 'npm'
+          
+      - name: Install Dependencies
+        run: npm install
+        
+      - name: Build Project
+        run: npm run build
+        
+      - name: Create Replit Config Files
+        run: |
+          # Create .replit file
+          echo 'run = "npm run dev"' > .replit
+          echo 'entrypoint = "app/page.tsx"' >> .replit
+          
+          # Create replit.nix
+          cat > replit.nix << EOL
+          { pkgs }: {
+              deps = [
+                  pkgs.nodejs-18_x
+                  pkgs.nodePackages.typescript-language-server
+                  pkgs.yarn
+                  pkgs.replitPackages.jest
+              ];
+          }
+          EOL
+          
+          # Create .replit.init script
+          cat > .replit.init << EOL
+          #!/bin/bash
+          echo "Setting up Next.js project..."
+          npm install
+          npm run build
+          echo "Setup complete!"
+          EOL
+          
+          chmod +x .replit.init
+          
+      - name: Push to Replit Branch
+        run: |
+          git config --global user.name "GitHub Action"
+          git config --global user.email "action@github.com"
+          git add .
+          git commit -m "Setup for Replit"
+          git push origin HEAD:replit --force 

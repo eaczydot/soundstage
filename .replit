@@ -1,0 +1,31 @@
+run = "npm run dev"
+hidden = [".build", ".config"]
+
+[packager]
+language = "nodejs"
+  [packager.features]
+  enabledForHosting = false
+  packageSearch = true
+  guessImports = true
+
+[env]
+XDG_CONFIG_HOME = "/home/runner/.config"
+PATH = "/home/runner/$REPL_SLUG/.config/npm/node_global/bin:/home/runner/$REPL_SLUG/node_modules/.bin"
+npm_config_prefix = "/home/runner/$REPL_SLUG/.config/npm/node_global"
+
+[nix]
+channel = "stable-22_11"
+
+[gitHubImport]
+requiredFiles = [".replit", "replit.nix", ".config"]
+
+[languages]
+  [languages.javascript]
+  pattern = "**/{*.js,*.jsx,*.ts,*.tsx,*.json}"
+    [languages.javascript.languageServer]
+    start = ["typescript-language-server", "--stdio"]
+
+[deployment]
+run = ["sh", "-c", "npm run dev"]
+deploymentTarget = "cloudrun"
+ignorePorts = false

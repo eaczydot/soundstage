@@ -2,22 +2,20 @@ import { NextResponse } from 'next/server'
 import type { NextRequest } from 'next/server'
 
 export function middleware(request: NextRequest) {
-  const isAuthenticated = request.cookies.has('auth-token') // Replace with your auth check
-  const isPublicPath = request.nextUrl.pathname.startsWith('/auth/')
-  
-  if (!isAuthenticated && !isPublicPath) {
-    return NextResponse.redirect(new URL('/auth/login', request.url))
-  }
-
-  if (isAuthenticated && isPublicPath) {
-    return NextResponse.redirect(new URL('/', request.url))
-  }
-
+  // For now, just pass through all requests
   return NextResponse.next()
 }
 
+// Optional: Configure matcher
 export const config = {
   matcher: [
-    '/((?!api|_next/static|_next/image|favicon.ico|auth/login).*)',
+    /*
+     * Match all request paths except for the ones starting with:
+     * - api (API routes)
+     * - _next/static (static files)
+     * - _next/image (image optimization files)
+     * - favicon.ico (favicon file)
+     */
+    '/((?!api|_next/static|_next/image|favicon.ico).*)',
   ],
-} 
+}

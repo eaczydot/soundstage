@@ -1,58 +1,31 @@
 'use client'
 
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
-import { DollarSign, ArrowUpRight, ArrowDownRight } from "lucide-react"
 import { Progress } from "@/components/ui/progress"
+import { formatCurrency } from "@/lib/utils"
 
 export function PaymentStatus() {
-  const paymentStats = {
-    total: 12000,
-    paid: 8500,
-    pending: 2500,
-    overdue: 1000,
-    trend: '+15%'
-  }
+  const totalEarnings = 24000
+  const pendingPayments = 8500
+  const progress = ((totalEarnings - pendingPayments) / totalEarnings) * 100
 
   return (
     <Card>
       <CardHeader>
         <CardTitle>Payment Status</CardTitle>
       </CardHeader>
-      <CardContent className="space-y-6">
-        <div className="flex items-center justify-between">
-          <div className="space-y-1">
-            <p className="text-sm font-medium">Total Revenue</p>
-            <p className="text-2xl font-bold">${paymentStats.total}</p>
-          </div>
-          <div className="flex items-center text-sm text-green-500">
-            <ArrowUpRight className="mr-1 h-4 w-4" />
-            {paymentStats.trend}
-          </div>
-        </div>
-
+      <CardContent>
         <div className="space-y-4">
           <div className="space-y-2">
-            <div className="flex items-center justify-between text-sm">
-              <span>Paid</span>
-              <span className="font-medium">${paymentStats.paid}</span>
-            </div>
-            <Progress value={70} className="bg-muted h-2" />
+            <p className="text-sm font-medium">Total Earnings</p>
+            <p className="text-2xl font-bold">{formatCurrency(totalEarnings)}</p>
           </div>
-
           <div className="space-y-2">
-            <div className="flex items-center justify-between text-sm">
-              <span>Pending</span>
-              <span className="font-medium">${paymentStats.pending}</span>
+            <div className="flex justify-between text-sm">
+              <p className="text-muted-foreground">Pending Payments</p>
+              <p className="font-medium">{formatCurrency(pendingPayments)}</p>
             </div>
-            <Progress value={20} className="bg-muted h-2" />
-          </div>
-
-          <div className="space-y-2">
-            <div className="flex items-center justify-between text-sm">
-              <span>Overdue</span>
-              <span className="font-medium text-red-500">${paymentStats.overdue}</span>
-            </div>
-            <Progress value={10} className="bg-muted h-2" />
+            <Progress value={progress} />
           </div>
         </div>
       </CardContent>

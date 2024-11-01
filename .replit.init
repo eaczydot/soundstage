@@ -1,8 +1,17 @@
 #!/bin/bash
-echo "Installing dependencies..."
+
+echo "Setting up Next.js project..."
+
+# Install dependencies
 npm install
 
-echo "Building project..."
+# Create necessary directories
+mkdir -p .config
+
+# Setup environment variables
+echo "NEXT_PUBLIC_API_URL=https://$REPL_SLUG.$REPL_OWNER.repl.co" > .env.local
+
+# Build the project
 npm run build
 
 echo "Setup complete! Click 'Run' to start the development server." 
