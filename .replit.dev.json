@@ -1,0 +1,22 @@
+{
+  "compile": "npm run dev",
+  "run": "npm run dev",
+  "watch": {
+    "ignore": [
+      ".git",
+      "node_modules",
+      ".next",
+      "*.log"
+    ],
+    "install": {
+      "include": [
+        "^package\\.json$",
+        "^\\.env$"
+      ]
+    }
+  },
+  "environment": {
+    "NODE_ENV": "development"
+  },
+  "onBoot": "npm install"
+} 

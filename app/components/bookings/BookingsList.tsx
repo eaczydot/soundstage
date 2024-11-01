@@ -1,7 +1,10 @@
 'use client'
 
-import { useState } from "react"
+import { useEffect } from "react"
 import { Card } from "@/components/ui/card"
+import { Input } from "@/components/ui/input"
+import { Button } from "@/components/ui/button"
+import { Badge } from "@/components/ui/badge"
 import {
   Table,
   TableBody,
@@ -10,9 +13,6 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table"
-import { Badge } from "@/components/ui/badge"
-import { Button } from "@/components/ui/button"
-import { Input } from "@/components/ui/input"
 import { Search, FileText, MessageSquare } from "lucide-react"
 import {
   Select,
@@ -21,19 +21,40 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select"
-import { Booking } from "@/types/booking"
 import { useStore } from "@/store"
+import { getBookings } from "@/services/bookings"
+import { useState } from "react"
 
 export function BookingsList() {
   const [searchTerm, setSearchTerm] = useState("")
   const [statusFilter, setStatusFilter] = useState<string>("")
-  const bookings = useStore((state) => state.bookings)
+  const { bookings, setBookings, isLoading, setIsLoading } = useStore()
+
+  useEffect(() => {
+    async function fetchBookings() {
+      setIsLoading(true)
+      try {
+        const data = await getBookings()
+        setBookings(data)
+      } catch (error) {
+        console.error('Error fetching bookings:', error)
+      } finally {
+        setIsLoading(false)
+      }
+    }
+
+    fetchBookings()
+  }, [setBookings, setIsLoading])
 
   const filteredBookings = bookings.filter(booking => {
     const matchesSearch = booking.venue.toLowerCase().includes(searchTerm.toLowerCase())
     const matchesStatus = !statusFilter || booking.status === statusFilter
     return matchesSearch && matchesStatus
   })
+
+  if (isLoading) {
+    return <div>Loading...</div>
+  }
 
   return (
     <Card>

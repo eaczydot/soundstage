@@ -20,25 +20,33 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select"
+import { useStore } from "@/store"
+import { createBooking } from "@/services/bookings"
 
 interface BookingDialogProps {
   open: boolean
   onOpenChange: (open: boolean) => void
-  date: Date | null
+  date?: Date | null
 }
 
 export function BookingDialog({ open, onOpenChange, date }: BookingDialogProps) {
   const [formData, setFormData] = useState({
     venue: "",
-    startTime: "20:00",
-    endTime: "23:00",
+    date: date?.toISOString().split('T')[0] || "",
+    time: "20:00",
     notes: "",
   })
+  const { addBooking } = useStore()
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
-    // Handle form submission
-    onOpenChange(false)
+    try {
+      const newBooking = await createBooking(formData)
+      addBooking(newBooking)
+      onOpenChange(false)
+    } catch (error) {
+      console.error('Error creating booking:', error)
+    }
   }
 
   return (
@@ -72,24 +80,24 @@ export function BookingDialog({ open, onOpenChange, date }: BookingDialogProps) 
             </div>
             <div className="grid grid-cols-2 gap-4">
               <div className="grid gap-2">
-                <Label htmlFor="startTime">Start Time</Label>
+                <Label htmlFor="date">Date</Label>
                 <Input
-                  id="startTime"
-                  type="time"
-                  value={formData.startTime}
+                  id="date"
+                  type="date"
+                  value={formData.date}
                   onChange={(e) =>
-                    setFormData({ ...formData, startTime: e.target.value })
+                    setFormData({ ...formData, date: e.target.value })
                   }
                 />
               </div>
               <div className="grid gap-2">
-                <Label htmlFor="endTime">End Time</Label>
+                <Label htmlFor="time">Time</Label>
                 <Input
-                  id="endTime"
+                  id="time"
                   type="time"
-                  value={formData.endTime}
+                  value={formData.time}
                   onChange={(e) =>
-                    setFormData({ ...formData, endTime: e.target.value })
+                    setFormData({ ...formData, time: e.target.value })
                   }
                 />
               </div>

@@ -3,7 +3,26 @@ export interface Booking {
   venue: string
   date: string
   time: string
-  status: 'pending' | 'confirmed' | 'cancelled' | 'completed'
+  status: BookingStatus
   amount?: number
+  notes?: string
   requirements?: string[]
+  venueId?: string
+  musicianId?: string
+}
+
+export type BookingStatus = 'pending' | 'confirmed' | 'cancelled' | 'completed'
+
+export interface BookingFormData {
+  venue: string
+  date: string
+  time: string
+  notes?: string
+}
+
+export interface VenueRequirement {
+  id: string
+  name: string
+  required: boolean
+  description?: string
 } 
