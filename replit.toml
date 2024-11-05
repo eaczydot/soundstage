@@ -66,4 +66,4 @@ type = "pwa-node"
 
 [deployment]
 build = ["sh", "-c", "npm run build"]
-run = ["sh", "-c", "npm run start"] 
+run = ["sh", "-c", "npm run start"]

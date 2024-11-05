@@ -1,106 +1,102 @@
 'use client'
 
-import { Card } from "@/components/ui/card"
+import { useState } from "react"
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
-import { Star, MapPin, Users, DollarSign, ArrowRight } from "lucide-react"
+import { motion, AnimatePresence } from "framer-motion"
+import { Building2, Star, MapPin, Music, X } from "lucide-react"
 
-interface VenueMatch {
+interface Venue {
   id: string
   name: string
   location: string
+  genre: string
+  rating: number
   matchScore: number
-  genres: string[]
-  capacity: number
-  averagePay: number
-  reason: string
 }
 
 export function VenueRecommendations() {
-  const venues: VenueMatch[] = [
+  const [isVisible, setIsVisible] = useState(true)
+  const [venues] = useState<Venue[]>([
     {
-      id: "1",
-      name: "The Jazz Room",
-      location: "Brooklyn, NY",
-      matchScore: 95,
-      genres: ["Jazz", "Blues"],
-      capacity: 200,
-      averagePay: 500,
-      reason: "Matches your musical style and past successful bookings",
+      id: '1',
+      name: 'Blue Note',
+      location: 'New York, NY',
+      genre: 'Jazz',
+      rating: 4.8,
+      matchScore: 95
     },
     {
-      id: "2",
-      name: "Rhythm House",
-      location: "Manhattan, NY",
-      matchScore: 88,
-      genres: ["Jazz", "Fusion"],
-      capacity: 150,
-      averagePay: 450,
-      reason: "Similar audience demographic to your top performing venues",
-    },
-  ]
+      id: '2',
+      name: 'Village Vanguard',
+      location: 'New York, NY',
+      genre: 'Jazz/Blues',
+      rating: 4.9,
+      matchScore: 92
+    }
+  ])
+
+  if (!isVisible) return null
 
   return (
-    <Card className="p-6">
-      <div className="space-y-6">
-        <div className="flex items-center justify-between">
-          <h2 className="text-lg font-semibold">Recommended Venues</h2>
-          <Badge variant="secondary" className="font-normal">
-            Based on your performance history
-          </Badge>
-        </div>
-
-        <div className="space-y-4">
-          {venues.map((venue) => (
-            <div
-              key={venue.id}
-              className="p-4 border rounded-lg space-y-4 hover:border-primary transition-colors"
+    <AnimatePresence>
+      <motion.div
+        initial={{ opacity: 0, y: 50 }}
+        animate={{ opacity: 1, y: 0 }}
+        exit={{ opacity: 0, y: 50 }}
+      >
+        <Card className="border-primary/20">
+          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+            <CardTitle className="text-lg font-medium">Recommended Venues</CardTitle>
+            <Button
+              variant="ghost"
+              size="icon"
+              onClick={() => setIsVisible(false)}
             >
-              <div className="flex items-start justify-between">
-                <div>
-                  <h3 className="font-medium">{venue.name}</h3>
-                  <div className="flex items-center gap-2 text-sm text-muted-foreground">
-                    <MapPin className="h-4 w-4" />
-                    <span>{venue.location}</span>
+              <X className="h-4 w-4" />
+            </Button>
+          </CardHeader>
+          <CardContent>
+            <div className="space-y-4">
+              {venues.map((venue, index) => (
+                <motion.div
+                  key={venue.id}
+                  initial={{ opacity: 0, x: -20 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  transition={{ delay: index * 0.1 }}
+                >
+                  <div className="flex items-start space-x-4 rounded-lg border p-4">
+                    <div className="rounded-full bg-primary/10 p-2">
+                      <Building2 className="h-4 w-4 text-primary" />
+                    </div>
+                    <div className="flex-1 space-y-1">
+                      <div className="flex items-center justify-between">
+                        <p className="font-medium">{venue.name}</p>
+                        <Badge variant="secondary">
+                          {venue.matchScore}% match
+                        </Badge>
+                      </div>
+                      <div className="flex items-center text-sm text-muted-foreground">
+                        <MapPin className="mr-1 h-4 w-4" />
+                        {venue.location}
+                      </div>
+                      <div className="flex items-center text-sm text-muted-foreground">
+                        <Music className="mr-1 h-4 w-4" />
+                        {venue.genre}
+                      </div>
+                      <div className="flex items-center text-sm text-muted-foreground">
+                        <Star className="mr-1 h-4 w-4 text-yellow-500" />
+                        {venue.rating}
+                      </div>
+                    </div>
                   </div>
-                </div>
-                <div className="flex items-center gap-1">
-                  <Star className="h-4 w-4 fill-yellow-500 text-yellow-500" />
-                  <span className="font-medium">{venue.matchScore}% match</span>
-                </div>
-              </div>
-
-              <div className="flex flex-wrap gap-2">
-                {venue.genres.map((genre) => (
-                  <Badge key={genre} variant="outline">
-                    {genre}
-                  </Badge>
-                ))}
-              </div>
-
-              <div className="grid grid-cols-2 gap-4 text-sm">
-                <div className="flex items-center gap-2">
-                  <Users className="h-4 w-4 text-muted-foreground" />
-                  <span>{venue.capacity} capacity</span>
-                </div>
-                <div className="flex items-center gap-2">
-                  <DollarSign className="h-4 w-4 text-muted-foreground" />
-                  <span>${venue.averagePay} avg. pay</span>
-                </div>
-              </div>
-
-              <div className="text-sm text-muted-foreground">
-                <strong>Why this venue:</strong> {venue.reason}
-              </div>
-
-              <Button className="w-full">
-                Contact Venue
-                <ArrowRight className="ml-2 h-4 w-4" />
-              </Button>
+                </motion.div>
+              ))}
             </div>
-          ))}
-        </div>
-      </div>
-    </Card>
+          </CardContent>
+        </Card>
+      </motion.div>
+    </AnimatePresence>
   )
 } 

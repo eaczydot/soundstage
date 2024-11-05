@@ -1,128 +1,124 @@
 "use client"
 
-import { useState, useRef } from "react"
+import { useState } from "react"
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Textarea } from "@/components/ui/textarea"
-import { useMessageStore, type Attachment } from "@/store/message-store"
-import { Upload, X, Paperclip, Send } from "lucide-react"
-import { generateId } from "@/lib/utils"
+import { Label } from "@/components/ui/label"
+import { Paperclip, X, Send } from "lucide-react"
+import { ScrollArea } from "@/components/ui/scroll-area"
 
-interface MessageComposerProps {
-  recipientId: string
-  onClose?: () => void
+interface Attachment {
+  id: string
+  name: string
+  size: number
+  type: string
 }
 
-export function MessageComposer({ recipientId, onClose }: MessageComposerProps) {
+export function MessageComposer() {
+  const [attachments, setAttachments] = useState<Attachment[]>([])
   const [subject, setSubject] = useState("")
   const [content, setContent] = useState("")
-  const [attachments, setAttachments] = useState<Attachment[]>([])
-  const fileInputRef = useRef<HTMLInputElement>(null)
-  const addMessage = useMessageStore((state) => state.addMessage)
 
-  const handleFileSelect = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const files = event.target.files
-    if (!files) return
-
-    const newAttachments: Attachment[] = Array.from(files).map((file) => ({
-      id: generateId(),
-      name: file.name,
-      type: file.type,
-      size: file.size,
-      url: URL.createObjectURL(file)
-    }))
-
-    setAttachments([...attachments, ...newAttachments])
+  const handleAttachment = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const files = e.target.files
+    if (files) {
+      const newAttachments = Array.from(files).map(file => ({
+        id: Math.random().toString(36).slice(2),
+        name: file.name,
+        size: file.size,
+        type: file.type
+      }))
+      setAttachments([...attachments, ...newAttachments])
+    }
   }
 
   const removeAttachment = (id: string) => {
-    setAttachments(attachments.filter((a) => a.id !== id))
+    setAttachments(attachments.filter(a => a.id !== id))
   }
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault()
-    
-    if (!subject.trim() || !content.trim()) return
-
-    addMessage({
-      id: generateId(),
-      senderId: "current-user", // Replace with actual user ID
-      recipientId,
-      subject,
-      content,
-      attachments,
-      timestamp: new Date().toISOString(),
-      read: false,
-      starred: false
-    })
-
-    setSubject("")
-    setContent("")
-    setAttachments([])
-    onClose?.()
+    // Handle message submission
+    console.log({ subject, content, attachments })
   }
 
   return (
-    <form onSubmit={handleSubmit} className="space-y-4">
-      <Input
-        placeholder="Subject"
-        value={subject}
-        onChange={(e) => setSubject(e.target.value)}
-      />
-      
-      <Textarea
-        placeholder="Write your message..."
-        value={content}
-        onChange={(e) => setContent(e.target.value)}
-        className="min-h-[200px]"
-      />
+    <Card>
+      <CardHeader>
+        <CardTitle>New Message</CardTitle>
+      </CardHeader>
+      <CardContent>
+        <form onSubmit={handleSubmit} className="space-y-4">
+          <div className="space-y-2">
+            <Label htmlFor="subject">Subject</Label>
+            <Input
+              id="subject"
+              placeholder="Message subject..."
+              value={subject}
+              onChange={(e) => setSubject(e.target.value)}
+            />
+          </div>
 
-      {attachments.length > 0 && (
-        <div className="flex flex-wrap gap-2">
-          {attachments.map((file) => (
-            <div
-              key={file.id}
-              className="flex items-center gap-2 rounded-lg border bg-muted px-3 py-1"
-            >
-              <Paperclip className="h-4 w-4" />
-              <span className="text-sm">{file.name}</span>
-              <Button
-                type="button"
-                variant="ghost"
-                size="icon"
-                className="h-4 w-4 p-0"
-                onClick={() => removeAttachment(file.id)}
-              >
-                <X className="h-3 w-3" />
+          <div className="space-y-2">
+            <Label htmlFor="content">Message</Label>
+            <Textarea
+              id="content"
+              placeholder="Write your message..."
+              className="min-h-[200px]"
+              value={content}
+              onChange={(e) => setContent(e.target.value)}
+            />
+          </div>
+
+          {attachments.length > 0 && (
+            <ScrollArea className="h-[100px] rounded-md border p-2">
+              <div className="space-y-2">
+                {attachments.map((file) => (
+                  <div
+                    key={file.id}
+                    className="flex items-center justify-between rounded-lg border p-2"
+                  >
+                    <div className="flex items-center space-x-2">
+                      <Paperclip className="h-4 w-4 text-muted-foreground" />
+                      <span className="text-sm">{file.name}</span>
+                    </div>
+                    <Button
+                      variant="ghost"
+                      size="icon"
+                      onClick={() => removeAttachment(file.id)}
+                    >
+                      <X className="h-4 w-4" />
+                    </Button>
+                  </div>
+                ))}
+              </div>
+            </ScrollArea>
+          )}
+
+          <div className="flex justify-between">
+            <div className="flex space-x-2">
+              <Button type="button" variant="outline" size="icon">
+                <label htmlFor="file" className="cursor-pointer">
+                  <Paperclip className="h-4 w-4" />
+                  <input
+                    type="file"
+                    id="file"
+                    multiple
+                    className="hidden"
+                    onChange={handleAttachment}
+                  />
+                </label>
               </Button>
             </div>
-          ))}
-        </div>
-      )}
-
-      <div className="flex justify-between">
-        <div className="flex gap-2">
-          <input
-            type="file"
-            ref={fileInputRef}
-            className="hidden"
-            multiple
-            onChange={handleFileSelect}
-          />
-          <Button
-            type="button"
-            variant="outline"
-            size="icon"
-            onClick={() => fileInputRef.current?.click()}
-          >
-            <Upload className="h-4 w-4" />
-          </Button>
-        </div>
-        <Button type="submit">
-          <Send className="mr-2 h-4 w-4" />
-          Send Message
-        </Button>
-      </div>
-    </form>
+            <Button type="submit">
+              <Send className="mr-2 h-4 w-4" />
+              Send Message
+            </Button>
+          </div>
+        </form>
+      </CardContent>
+    </Card>
   )
 } 

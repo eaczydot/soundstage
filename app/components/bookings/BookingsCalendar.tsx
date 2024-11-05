@@ -1,82 +1,74 @@
 'use client'
 
-import { useState } from 'react'
 import { Card } from "@/components/ui/card"
 import FullCalendar from '@fullcalendar/react'
 import dayGridPlugin from '@fullcalendar/daygrid'
 import timeGridPlugin from '@fullcalendar/timegrid'
 import interactionPlugin from '@fullcalendar/interaction'
+import { useToast } from "@/hooks/use-toast"
 
-// Mock data for events
 const mockEvents = [
   {
     id: '1',
-    title: 'The Blue Note',
-    start: '2024-03-15T20:00:00',
-    end: '2024-03-15T23:00:00',
+    title: 'Jazz Night at Blue Note',
+    start: '2024-03-20T20:00:00',
+    end: '2024-03-20T23:00:00',
     backgroundColor: 'hsl(var(--primary))',
     borderColor: 'hsl(var(--primary))',
+    extendedProps: {
+      venue: 'Blue Note',
+      genre: 'Jazz',
+      fee: 1500
+    }
   },
   {
     id: '2',
-    title: 'Jazz Corner',
-    start: '2024-03-18T19:00:00',
-    end: '2024-03-18T22:00:00',
+    title: 'Rock Show at Electric Ballroom',
+    start: '2024-03-22T21:00:00',
+    end: '2024-03-23T00:00:00',
     backgroundColor: 'hsl(var(--primary))',
     borderColor: 'hsl(var(--primary))',
+    extendedProps: {
+      venue: 'Electric Ballroom',
+      genre: 'Rock',
+      fee: 2000
+    }
   },
 ]
 
 export function BookingsCalendar() {
-  const [currentEvents, setCurrentEvents] = useState(mockEvents)
+  const { toast } = useToast()
 
-  const handleDateSelect = (selectInfo: any) => {
-    const title = prompt('Please enter venue name for the booking:')
-    const calendarApi = selectInfo.view.calendar
-
-    calendarApi.unselect() // clear date selection
-
-    if (title) {
-      calendarApi.addEvent({
-        id: String(currentEvents.length + 1),
-        title,
-        start: selectInfo.startStr,
-        end: selectInfo.endStr,
-        backgroundColor: 'hsl(var(--primary))',
-        borderColor: 'hsl(var(--primary))',
-      })
-    }
-  }
-
-  const handleEventClick = (clickInfo: any) => {
-    if (confirm(`Are you sure you want to delete the booking at '${clickInfo.event.title}'?`)) {
-      clickInfo.event.remove()
-    }
+  const handleEventClick = (info: any) => {
+    const event = info.event
+    toast({
+      title: event.title,
+      description: `Venue: ${event.extendedProps.venue}\nGenre: ${event.extendedProps.genre}\nFee: $${event.extendedProps.fee}`,
+    })
   }
 
   return (
     <Card className="p-6">
-      <FullCalendar
-        plugins={[dayGridPlugin, timeGridPlugin, interactionPlugin]}
-        headerToolbar={{
-          left: 'prev,next today',
-          center: 'title',
-          right: 'dayGridMonth,timeGridWeek,timeGridDay'
-        }}
-        initialView='dayGridMonth'
-        editable={true}
-        selectable={true}
-        selectMirror={true}
-        dayMaxEvents={true}
-        weekends={true}
-        events={currentEvents}
-        select={handleDateSelect}
-        eventClick={handleEventClick}
-        height="auto"
-        // Theme customization
-        themeSystem='standard'
-        className="fc-theme-custom"
-      />
+      <div className="fc-theme-custom">
+        <FullCalendar
+          plugins={[dayGridPlugin, timeGridPlugin, interactionPlugin]}
+          initialView="dayGridMonth"
+          headerToolbar={{
+            left: 'prev,next today',
+            center: 'title',
+            right: 'dayGridMonth,timeGridWeek,timeGridDay'
+          }}
+          events={mockEvents}
+          eventClick={handleEventClick}
+          height="auto"
+          editable={true}
+          selectable={true}
+          selectMirror={true}
+          dayMaxEvents={true}
+          weekends={true}
+          themeSystem='standard'
+        />
+      </div>
 
       <style jsx global>{`
         .fc-theme-custom {

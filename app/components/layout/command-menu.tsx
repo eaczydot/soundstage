@@ -3,9 +3,10 @@
 import * as React from "react"
 import { useRouter } from "next/navigation"
 import { DialogProps } from "@radix-ui/react-dialog"
-import { Search, Keyboard } from "lucide-react"
+import { Search } from "lucide-react"
 import { cn } from "@/lib/utils"
 import { Button } from "@/components/ui/button"
+import { routes } from "@/config/routes"
 import {
   CommandDialog,
   CommandEmpty,
@@ -17,11 +18,7 @@ import {
   CommandShortcut,
 } from "@/components/ui/command"
 
-interface CommandMenuProps extends DialogProps {
-  routes: any[]
-}
-
-export function CommandMenu({ routes, ...props }: CommandMenuProps) {
+export function CommandMenu(props: DialogProps) {
   const router = useRouter()
   const [open, setOpen] = React.useState(false)
 

@@ -1,52 +1,75 @@
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
-import { Calendar, DollarSign, Music, TrendingUp } from "lucide-react"
+"use client"
+
+import { Card } from "@/components/ui/card"
+import { motion } from "framer-motion"
+import { cn } from "@/lib/utils"
+
+const stats = [
+  {
+    title: "Total Bookings",
+    value: "24",
+    period: "/ month",
+    trend: "+12%",
+    trendUp: true
+  },
+  {
+    title: "Revenue",
+    value: "$12,450",
+    period: "/ month",
+    trend: "+8%",
+    trendUp: true
+  },
+  {
+    title: "Performances",
+    value: "18",
+    period: "/ month",
+    trend: "0%",
+    trendUp: false
+  },
+  {
+    title: "Growth",
+    value: "+15%",
+    period: "/ year",
+    trend: "+24.5%",
+    trendUp: true
+  }
+]
 
 export function StatsCards() {
-  const stats = [
-    {
-      title: "Total Bookings",
-      value: "24",
-      description: "+12% from last month",
-      icon: Calendar,
-    },
-    {
-      title: "Revenue",
-      value: "$12,450",
-      description: "+8% from last month",
-      icon: DollarSign,
-    },
-    {
-      title: "Performances",
-      value: "18",
-      description: "This month",
-      icon: Music,
-    },
-    {
-      title: "Growth",
-      value: "+15%",
-      description: "Year over year",
-      icon: TrendingUp,
-    },
-  ]
-
   return (
-    <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
-      {stats.map((stat) => (
-        <Card key={stat.title}>
-          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">
-              {stat.title}
-            </CardTitle>
-            <stat.icon className="h-4 w-4 text-muted-foreground" />
-          </CardHeader>
-          <CardContent>
-            <div className="text-2xl font-bold">{stat.value}</div>
-            <p className="text-xs text-muted-foreground">
-              {stat.description}
-            </p>
-          </CardContent>
-        </Card>
+    <>
+      {stats.map((stat, index) => (
+        <motion.div
+          key={stat.title}
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: index * 0.1 }}
+        >
+          <Card className="p-4">
+            <div className="space-y-1">
+              <p className="text-sm text-muted-foreground">
+                {stat.title}
+              </p>
+              <div className="flex items-baseline justify-between">
+                <h2 className="text-2xl font-bold tracking-tight">
+                  {stat.value}
+                </h2>
+                {stat.trend && (
+                  <span className={cn(
+                    "text-xs font-medium",
+                    stat.trendUp ? "text-green-500" : "text-muted-foreground"
+                  )}>
+                    {stat.trend}
+                  </span>
+                )}
+              </div>
+              <p className="text-xs text-muted-foreground">
+                {stat.period}
+              </p>
+            </div>
+          </Card>
+        </motion.div>
       ))}
-    </div>
+    </>
   )
 } 

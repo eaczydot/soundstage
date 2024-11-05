@@ -1,147 +1,82 @@
 'use client'
 
-import { useEffect, useState } from "react"
-import { Card } from "@/components/ui/card"
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
-import { Calendar, Clock, MapPin, DollarSign, FileText } from "lucide-react"
-import { useStore } from "@/store"
-import { getBookingById } from "@/services/bookings"
-import { Booking } from "@/types/booking"
+import { formatDate, formatCurrency } from "@/lib/utils"
+import { Calendar, Clock, MapPin, Users, DollarSign } from "lucide-react"
 
 interface BookingDetailsProps {
-  bookingId: string
+  id: string;
 }
 
-export function BookingDetails({ bookingId }: BookingDetailsProps) {
-  const [booking, setBooking] = useState<Booking | null>(null)
-  const [isLoading, setIsLoading] = useState(true)
-  const { updateBooking } = useStore()
-
-  useEffect(() => {
-    async function fetchBooking() {
-      try {
-        const data = await getBookingById(bookingId)
-        setBooking(data)
-      } catch (error) {
-        console.error('Error fetching booking:', error)
-      } finally {
-        setIsLoading(false)
-      }
-    }
-
-    fetchBooking()
-  }, [bookingId])
-
-  if (isLoading) {
-    return <div>Loading...</div>
-  }
-
-  if (!booking) {
-    return (
-      <Card className="p-6">
-        <p>Booking not found</p>
-      </Card>
-    )
+export function BookingDetails({ id }: BookingDetailsProps) {
+  // Mock booking data - replace with real data fetching
+  const booking = {
+    id,
+    venue: "The Blue Note",
+    date: "2024-04-15",
+    time: "20:00",
+    duration: "3 hours",
+    status: "confirmed",
+    fee: 1500,
+    capacity: 250,
+    notes: "Standard jazz setup required. Piano tuning needed before performance.",
   }
 
   return (
-    <Tabs defaultValue="overview" className="space-y-6">
-      <TabsList>
-        <TabsTrigger value="overview">Overview</TabsTrigger>
-        <TabsTrigger value="requirements">Requirements</TabsTrigger>
-        <TabsTrigger value="payment">Payment</TabsTrigger>
-      </TabsList>
-
-      <TabsContent value="overview">
-        <Card className="p-6">
-          <div className="space-y-6">
-            <div className="flex items-center justify-between">
-              <h2 className="text-lg font-semibold">Booking Details</h2>
-              <Badge variant={
-                booking.status === 'confirmed' ? 'success' :
-                booking.status === 'pending' ? 'warning' :
-                'destructive'
-              }>
-                {booking.status}
-              </Badge>
-            </div>
-
-            <div className="grid gap-4">
-              <div className="flex items-center gap-2">
-                <MapPin className="h-4 w-4 text-muted-foreground" />
+    <div className="space-y-6">
+      <Card>
+        <CardHeader>
+          <div className="flex items-center justify-between">
+            <CardTitle>Booking Details</CardTitle>
+            <Badge variant={
+              booking.status === "confirmed" ? "success" :
+              booking.status === "pending" ? "warning" : "destructive"
+            }>
+              {booking.status}
+            </Badge>
+          </div>
+        </CardHeader>
+        <CardContent className="space-y-4">
+          <div className="grid gap-4 md:grid-cols-2">
+            <div className="space-y-2">
+              <div className="flex items-center text-sm">
+                <MapPin className="mr-2 h-4 w-4 text-muted-foreground" />
                 <span>{booking.venue}</span>
               </div>
-              <div className="flex items-center gap-2">
-                <Calendar className="h-4 w-4 text-muted-foreground" />
-                <span>{new Date(booking.date).toLocaleDateString()}</span>
+              <div className="flex items-center text-sm">
+                <Calendar className="mr-2 h-4 w-4 text-muted-foreground" />
+                <span>{formatDate(booking.date)}</span>
               </div>
-              <div className="flex items-center gap-2">
-                <Clock className="h-4 w-4 text-muted-foreground" />
-                <span>{booking.time}</span>
-              </div>
-              <div className="flex items-center gap-2">
-                <DollarSign className="h-4 w-4 text-muted-foreground" />
-                <span>${booking.amount}</span>
-              </div>
-              {booking.notes && (
-                <div className="border-t pt-4 mt-4">
-                  <h3 className="font-medium mb-2">Notes</h3>
-                  <p className="text-muted-foreground">{booking.notes}</p>
-                </div>
-              )}
-            </div>
-
-            <div className="flex gap-2">
-              <Button onClick={() => updateBooking(booking.id, { status: 'confirmed' })}>
-                Confirm Booking
-              </Button>
-              <Button variant="outline">
-                <FileText className="mr-2 h-4 w-4" />
-                Download Details
-              </Button>
-            </div>
-          </div>
-        </Card>
-      </TabsContent>
-
-      <TabsContent value="requirements">
-        <Card className="p-6">
-          <div className="space-y-4">
-            <h3 className="font-medium">Equipment Requirements</h3>
-            {booking.requirements?.map((req, index) => (
-              <div key={index} className="flex items-center gap-2">
-                <FileText className="h-4 w-4 text-muted-foreground" />
-                <span>{req}</span>
-              </div>
-            ))}
-          </div>
-        </Card>
-      </TabsContent>
-
-      <TabsContent value="payment">
-        <Card className="p-6">
-          <div className="space-y-4">
-            <h3 className="font-medium">Payment Information</h3>
-            <div className="grid gap-2">
-              <div className="flex justify-between">
-                <span>Base Amount</span>
-                <span>${booking.amount}</span>
-              </div>
-              <div className="flex justify-between text-muted-foreground">
-                <span>Service Fee</span>
-                <span>$25</span>
-              </div>
-              <div className="flex justify-between font-medium border-t pt-2">
-                <span>Total</span>
-                <span>${(booking.amount || 0) + 25}</span>
+              <div className="flex items-center text-sm">
+                <Clock className="mr-2 h-4 w-4 text-muted-foreground" />
+                <span>{booking.time} ({booking.duration})</span>
               </div>
             </div>
-            <Button className="w-full">Process Payment</Button>
+            <div className="space-y-2">
+              <div className="flex items-center text-sm">
+                <DollarSign className="mr-2 h-4 w-4 text-muted-foreground" />
+                <span>{formatCurrency(booking.fee)}</span>
+              </div>
+              <div className="flex items-center text-sm">
+                <Users className="mr-2 h-4 w-4 text-muted-foreground" />
+                <span>Capacity: {booking.capacity}</span>
+              </div>
+            </div>
           </div>
-        </Card>
-      </TabsContent>
-    </Tabs>
+
+          <div className="space-y-2">
+            <h4 className="text-sm font-medium">Notes</h4>
+            <p className="text-sm text-muted-foreground">{booking.notes}</p>
+          </div>
+
+          <div className="flex justify-end space-x-2">
+            <Button variant="outline">Edit Booking</Button>
+            <Button variant="destructive">Cancel Booking</Button>
+          </div>
+        </CardContent>
+      </Card>
+    </div>
   )
 } 

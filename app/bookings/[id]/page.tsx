@@ -1,21 +1,17 @@
 import { BookingDetails } from "@/components/bookings/BookingDetails"
 
-interface BookingPageProps {
+type PageProps = {
   params: {
-    id: string
-  }
-}
+    id: string;
+  };
+  searchParams: { [key: string]: string | string[] | undefined };
+};
 
-export default function BookingPage({ params }: BookingPageProps) {
+export default function BookingPage({ params, searchParams }: PageProps) {
   return (
-    <div className="flex flex-col gap-6">
-      <div>
-        <h1 className="text-3xl font-bold tracking-tight">Booking Details</h1>
-        <p className="text-muted-foreground">
-          View and manage booking information
-        </p>
-      </div>
-      <BookingDetails bookingId={params.id} />
+    <div className="container mx-auto p-6">
+      <h1 className="text-2xl font-bold mb-4">Booking {params.id}</h1>
+      {/* <BookingDetails id={params.id} /> */}
     </div>
-  )
+  );
 } 

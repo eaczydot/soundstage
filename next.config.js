@@ -1,8 +1,10 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-    images: {
-      domains: ['localhost'],
-    },
-  }
-  
-  module.exports = nextConfig
+  reactStrictMode: true,
+  experimental: {
+    optimizeCss: true,
+    legacyBrowsers: false,
+  },
+}
+
+module.exports = nextConfig

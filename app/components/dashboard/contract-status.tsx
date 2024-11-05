@@ -1,107 +1,86 @@
 "use client"
 
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
 import { ScrollArea } from "@/components/ui/scroll-area"
+import { motion } from "framer-motion"
+import { CompactProps } from "@/types/layout"
 import { cn } from "@/lib/utils"
-import { FileText, DollarSign, AlertCircle } from "lucide-react"
+import { format } from "date-fns"
 
-interface ContractStatusProps extends React.HTMLAttributes<HTMLDivElement> {}
-
-const mockContracts = [
-  {
-    id: 1,
-    venue: "The Blue Note",
-    type: "Performance",
-    value: "$2,400",
-    status: "pending_signature",
-    dueDate: "2024-03-18",
-  },
-  {
-    id: 2,
-    venue: "Jazz Corner",
-    type: "Residency",
-    value: "$4,800",
-    status: "pending_review",
-    dueDate: "2024-03-20",
-  },
-  {
-    id: 3,
-    venue: "Village Vanguard",
-    type: "Special Event",
-    value: "$3,200",
-    status: "pending_payment",
-    dueDate: "2024-03-25",
-  },
-]
-
-const getStatusDetails = (status: string) => {
-  switch (status) {
-    case "pending_signature":
-      return {
-        label: "Pending Signature",
-        variant: "warning" as const,
-        icon: FileText,
-      }
-    case "pending_review":
-      return {
-        label: "Under Review",
-        variant: "secondary" as const,
-        icon: AlertCircle,
-      }
-    case "pending_payment":
-      return {
-        label: "Awaiting Payment",
-        variant: "default" as const,
-        icon: DollarSign,
-      }
-    default:
-      return {
-        label: "Unknown",
-        variant: "secondary" as const,
-        icon: AlertCircle,
-      }
-  }
+interface Contract {
+  id: string
+  venue: string
+  type: string
+  amount: number
+  dueDate: string
+  status: 'pending_signature' | 'under_review' | 'awaiting_payment'
 }
 
-export function ContractStatus({ className, ...props }: ContractStatusProps) {
+export function ContractStatus({ isCompact }: CompactProps) {
+  const contracts: Contract[] = [
+    {
+      id: '1',
+      venue: 'The Blue Note',
+      type: 'Performance',
+      amount: 2400,
+      dueDate: '2024-03-17',
+      status: 'pending_signature'
+    },
+    {
+      id: '2',
+      venue: 'Jazz Corner',
+      type: 'Residency',
+      amount: 4800,
+      dueDate: '2024-03-19',
+      status: 'under_review'
+    },
+    {
+      id: '3',
+      venue: 'Village Vanguard',
+      type: 'Special Event',
+      amount: 3200,
+      dueDate: '2024-03-24',
+      status: 'awaiting_payment'
+    }
+  ]
+
+  const getStatusBadge = (status: Contract['status']) => {
+    switch (status) {
+      case 'pending_signature':
+        return <Badge variant="outline">Pending Signature</Badge>
+      case 'under_review':
+        return <Badge className="bg-yellow-500/10 text-yellow-500 hover:bg-yellow-500/20">Under Review</Badge>
+      case 'awaiting_payment':
+        return <Badge variant="outline">Awaiting Payment</Badge>
+    }
+  }
+
   return (
-    <Card className={cn("col-span-3", className)} {...props}>
-      <CardHeader>
-        <CardTitle>Contract Status</CardTitle>
-      </CardHeader>
-      <CardContent>
-        <ScrollArea className="h-[400px] pr-4">
-          <div className="space-y-4">
-            {mockContracts.map((contract) => {
-              const status = getStatusDetails(contract.status)
-              return (
-                <div
-                  key={contract.id}
-                  className="flex items-center justify-between space-x-4 rounded-lg border p-4"
-                >
-                  <div className="space-y-2">
-                    <div className="flex items-center gap-2">
-                      <h3 className="font-semibold">{contract.venue}</h3>
-                      <Badge variant="outline">{contract.type}</Badge>
-                    </div>
-                    <div className="flex items-center text-sm text-muted-foreground">
-                      <status.icon className="mr-1 h-4 w-4" />
-                      Due: {contract.dueDate}
-                    </div>
-                    <div className="text-sm font-medium text-primary">
-                      {contract.value}
-                    </div>
-                  </div>
-                  <Badge variant={status.variant}>
-                    {status.label}
-                  </Badge>
-                </div>
-              )
-            })}
-          </div>
-        </ScrollArea>
-      </CardContent>
-    </Card>
+    <ScrollArea className="h-full px-4">
+      <div className="space-y-4">
+        {contracts.map((contract, index) => (
+          <motion.div
+            key={contract.id}
+            initial={{ opacity: 0, y: 10 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: index * 0.1 }}
+          >
+            <div className="space-y-2">
+              <div className="flex items-center justify-between">
+                <h3 className="font-medium">{contract.venue}</h3>
+                {getStatusBadge(contract.status)}
+              </div>
+              <div className="flex items-center justify-between text-sm text-muted-foreground">
+                <span>{contract.type}</span>
+                <span>${contract.amount.toLocaleString()}</span>
+              </div>
+              <div className="text-xs text-muted-foreground">
+                Due: {format(new Date(contract.dueDate), 'MM/dd/yyyy')}
+              </div>
+            </div>
+          </motion.div>
+        ))}
+      </div>
+    </ScrollArea>
   )
 } 

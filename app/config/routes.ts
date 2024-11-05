@@ -1,17 +1,17 @@
 import {
-  Calendar,
   LayoutDashboard,
+  Calendar,
+  MessageSquare,
+  Building2,
   Music2,
   FileText,
-  Settings,
   DollarSign,
-  Megaphone,
-  Building2,
+  Settings,
 } from "lucide-react"
 
 export const routes = [
   {
-    label: 'Dashboard',
+    label: 'Overview',
     icon: LayoutDashboard,
     href: '/',
   },
@@ -19,31 +19,21 @@ export const routes = [
     label: 'Bookings',
     icon: Calendar,
     href: '/bookings',
-    subItems: [
-      { label: 'Calendar', href: '/bookings/calendar' },
-      { label: 'Requests', href: '/bookings/requests' },
-      { label: 'History', href: '/bookings/history' },
-    ]
+  },
+  {
+    label: 'Messages',
+    icon: MessageSquare,
+    href: '/messages',
   },
   {
     label: 'Venues',
     icon: Building2,
     href: '/venues',
-    subItems: [
-      { label: 'Browse', href: '/venues/browse' },
-      { label: 'Favorites', href: '/venues/favorites' },
-      { label: 'Reviews', href: '/venues/reviews' },
-    ]
   },
   {
-    label: 'Performances',
+    label: 'Shows',
     icon: Music2,
     href: '/performances',
-    subItems: [
-      { label: 'Upcoming', href: '/performances/upcoming' },
-      { label: 'Past', href: '/performances/past' },
-      { label: 'Setlists', href: '/performances/setlists' },
-    ]
   },
   {
     label: 'Contracts',
@@ -54,16 +44,6 @@ export const routes = [
     label: 'Payments',
     icon: DollarSign,
     href: '/payments',
-    subItems: [
-      { label: 'Earnings', href: '/payments/earnings' },
-      { label: 'Invoices', href: '/payments/invoices' },
-      { label: 'Tax Documents', href: '/payments/tax' },
-    ]
-  },
-  {
-    label: 'Marketing',
-    icon: Megaphone,
-    href: '/marketing',
   },
   {
     label: 'Settings',

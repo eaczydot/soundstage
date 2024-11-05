@@ -119,4 +119,4 @@ NODE_OPTIONS='--max_old_space_size=4096' npm run dev
 - View logs in the Console tab
 - Use Shell for npm commands
 - Check "Secrets" tab for environment variables
-- Use "Version Control" tab for Git operations 
+- Use "Version Control" tab for Git operations

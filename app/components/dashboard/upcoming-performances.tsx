@@ -1,70 +1,93 @@
 "use client"
 
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
 import { ScrollArea } from "@/components/ui/scroll-area"
+import { motion } from "framer-motion"
+import { CompactProps } from "@/types/layout"
 import { cn } from "@/lib/utils"
-import { Calendar, Clock, MapPin } from "lucide-react"
+import { MapPin, Clock } from "lucide-react"
+import { format } from "date-fns"
 
-interface UpcomingPerformancesProps extends React.HTMLAttributes<HTMLDivElement> {}
+interface Performance {
+  id: string
+  venue: string
+  location: string
+  date: string
+  time: string
+  status: 'confirmed' | 'pending'
+}
 
-const mockPerformances = [
-  {
-    id: 1,
-    venue: "The Blue Note",
-    date: "2024-03-20",
-    time: "20:00",
-    location: "New York, NY",
-    status: "confirmed",
-  },
-  {
-    id: 2,
-    venue: "Jazz Corner",
-    date: "2024-03-25",
-    time: "21:00",
-    location: "Chicago, IL",
-    status: "pending",
-  },
-  // Add more mock data...
-]
+export function UpcomingPerformances({ isCompact }: CompactProps) {
+  const performances: Performance[] = [
+    {
+      id: '1',
+      venue: 'The Blue Note',
+      location: 'New York, NY',
+      date: '2024-03-19',
+      time: '20:00',
+      status: 'confirmed'
+    },
+    {
+      id: '2',
+      venue: 'Jazz Corner',
+      location: 'Chicago, IL',
+      date: '2024-03-24',
+      time: '21:00',
+      status: 'pending'
+    },
+    {
+      id: '3',
+      venue: 'Village Vanguard',
+      location: 'New York, NY',
+      date: '2024-03-27',
+      time: '19:30',
+      status: 'confirmed'
+    }
+  ]
 
-export function UpcomingPerformances({ className, ...props }: UpcomingPerformancesProps) {
+  const getStatusBadge = (status: Performance['status']) => {
+    switch (status) {
+      case 'confirmed':
+        return <Badge className="bg-green-500/10 text-green-500 hover:bg-green-500/20">Confirmed</Badge>
+      case 'pending':
+        return <Badge className="bg-yellow-500/10 text-yellow-500 hover:bg-yellow-500/20">Pending</Badge>
+    }
+  }
+
   return (
-    <Card className={cn("col-span-4", className)} {...props}>
-      <CardHeader>
-        <CardTitle>Upcoming Performances</CardTitle>
-      </CardHeader>
-      <CardContent>
-        <ScrollArea className="h-[400px] pr-4">
-          <div className="space-y-4">
-            {mockPerformances.map((performance) => (
-              <div
-                key={performance.id}
-                className="flex items-center justify-between space-x-4 rounded-lg border p-4"
-              >
-                <div className="space-y-2">
-                  <h3 className="font-semibold">{performance.venue}</h3>
-                  <div className="flex items-center text-sm text-muted-foreground">
-                    <Calendar className="mr-1 h-4 w-4" />
-                    {performance.date}
-                    <Clock className="ml-3 mr-1 h-4 w-4" />
-                    {performance.time}
-                  </div>
-                  <div className="flex items-center text-sm text-muted-foreground">
-                    <MapPin className="mr-1 h-4 w-4" />
-                    {performance.location}
-                  </div>
-                </div>
-                <Badge
-                  variant={performance.status === "confirmed" ? "default" : "secondary"}
-                >
-                  {performance.status}
-                </Badge>
+    <ScrollArea className="h-full px-4">
+      <div className="space-y-4">
+        {performances.map((performance, index) => (
+          <motion.div
+            key={performance.id}
+            initial={{ opacity: 0, y: 10 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: index * 0.1 }}
+          >
+            <div className="space-y-2">
+              <div className="flex items-center justify-between">
+                <h3 className="font-medium">{performance.venue}</h3>
+                {getStatusBadge(performance.status)}
               </div>
-            ))}
-          </div>
-        </ScrollArea>
-      </CardContent>
-    </Card>
+              
+              <div className="grid grid-cols-2 gap-2 text-sm text-muted-foreground">
+                <div className="flex items-center">
+                  <MapPin className="mr-1 h-4 w-4" />
+                  <span>{performance.location}</span>
+                </div>
+                <div className="flex items-center">
+                  <Clock className="mr-1 h-4 w-4" />
+                  <span>{performance.time}</span>
+                </div>
+              </div>
+
+              <div className="text-xs text-muted-foreground">
+                {format(new Date(performance.date), 'EEEE, MMMM d, yyyy')}
+              </div>
+            </div>
+          </motion.div>
+        ))}
+      </div>
+    </ScrollArea>
   )
 } 

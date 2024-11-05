@@ -1,3 +1,4 @@
+import { Navbar } from "./navbar"
 import { Sidebar } from "./sidebar"
 
 export function MainLayout({
@@ -6,15 +7,14 @@ export function MainLayout({
   children: React.ReactNode
 }) {
   return (
-    <div className="h-full relative">
-      <div className="hidden h-full md:flex md:w-72 md:flex-col md:fixed md:inset-y-0 z-[80] bg-card">
+    <div className="min-h-screen">
+      <Navbar />
+      <div className="flex h-[calc(100vh-3.5rem)]">
         <Sidebar />
-      </div>
-      <main className="md:pl-72">
-        <div className="h-full max-w-7xl mx-auto px-4 py-8">
+        <main className="flex-1 overflow-y-auto p-6">
           {children}
-        </div>
-      </main>
+        </main>
+      </div>
     </div>
   )
 } 

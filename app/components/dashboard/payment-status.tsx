@@ -1,108 +1,115 @@
 "use client"
 
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
-import { Badge } from "@/components/ui/badge"
 import { ScrollArea } from "@/components/ui/scroll-area"
-import { Button } from "@/components/ui/button"
+import { Progress } from "@/components/ui/progress"
+import { motion } from "framer-motion"
+import { CompactProps } from "@/types/layout"
 import { cn } from "@/lib/utils"
-import { Download, FileText, DollarSign, AlertCircle } from "lucide-react"
+import { DollarSign, ArrowUpRight } from "lucide-react"
 
-interface PaymentStatusProps extends React.HTMLAttributes<HTMLDivElement> {}
+interface PaymentMetrics {
+  totalEarnings: number
+  pendingPayments: number
+  completedPayments: number
+  projectedEarnings: number
+  percentageIncrease: number
+}
 
-const mockPayments = [
-  {
-    id: 1,
-    venue: "Blue Note NYC",
-    amount: 2400,
-    date: "2024-03-15",
-    status: "paid",
-    taxDocument: "1099",
-    taxDocumentStatus: "ready"
-  },
-  {
-    id: 2,
-    venue: "Jazz Corner",
-    amount: 1800,
-    date: "2024-03-10",
-    status: "pending",
-    taxDocument: "1099",
-    taxDocumentStatus: "processing"
-  },
-  {
-    id: 3,
-    venue: "Village Vanguard",
-    amount: 3200,
-    date: "2024-03-05",
-    status: "paid",
-    taxDocument: "1099",
-    taxDocumentStatus: "ready"
+export function PaymentStatus({ isCompact }: CompactProps) {
+  const metrics: PaymentMetrics = {
+    totalEarnings: 24000,
+    pendingPayments: 8500,
+    completedPayments: 15500,
+    projectedEarnings: 35000,
+    percentageIncrease: 15
   }
-]
 
-const statusColors = {
-  paid: "text-green-500",
-  pending: "text-yellow-500",
-  overdue: "text-destructive"
-}
+  const completionPercentage = (metrics.completedPayments / metrics.totalEarnings) * 100
 
-const statusIcons = {
-  ready: Download,
-  processing: AlertCircle,
-  pending: FileText
-}
-
-export function PaymentStatus({ className, ...props }: PaymentStatusProps) {
   return (
-    <Card className={cn("col-span-3", className)} {...props}>
-      <CardHeader>
-        <div className="flex items-center justify-between">
-          <CardTitle>Payment Status & Tax Documents</CardTitle>
-          <Button variant="outline" size="sm">
-            <FileText className="mr-2 h-4 w-4" />
-            Generate 1099s
-          </Button>
+    <Card className="h-full">
+      <CardHeader className={cn(
+        "flex flex-row items-center justify-between",
+        isCompact ? "py-2" : "py-3"
+      )}>
+        <CardTitle className="text-lg font-medium">Payment Status</CardTitle>
+        <div className="flex items-center space-x-2">
+          <div className={cn(
+            "flex items-center rounded-full px-2 py-1",
+            "text-green-500 bg-green-500/10"
+          )}>
+            <ArrowUpRight className="h-3 w-3 mr-1" />
+            <span className="text-xs font-medium">
+              {metrics.percentageIncrease}%
+            </span>
+          </div>
         </div>
       </CardHeader>
-      <CardContent>
-        <ScrollArea className="h-[400px] pr-4">
-          <div className="space-y-4">
-            {mockPayments.map((payment) => {
-              const StatusIcon = statusIcons[payment.taxDocumentStatus as keyof typeof statusIcons]
-              return (
-                <div
-                  key={payment.id}
-                  className="flex items-center justify-between space-x-4 rounded-lg border p-4"
-                >
-                  <div className="space-y-1">
-                    <div className="flex items-center gap-2">
-                      <DollarSign className={cn(
-                        "h-4 w-4",
-                        statusColors[payment.status as keyof typeof statusColors]
-                      )} />
-                      <span className="font-medium">{payment.venue}</span>
-                    </div>
-                    <p className="text-sm text-muted-foreground">
-                      {payment.date} • ${payment.amount}
-                    </p>
-                  </div>
-                  <div className="flex items-center gap-2">
-                    <Badge 
-                      variant={payment.status === "paid" ? "default" : "secondary"}
-                    >
-                      {payment.status}
-                    </Badge>
-                    {payment.taxDocumentStatus === "ready" ? (
-                      <Button variant="ghost" size="icon">
-                        <StatusIcon className="h-4 w-4" />
-                      </Button>
-                    ) : (
-                      <StatusIcon className="h-4 w-4 text-muted-foreground" />
-                    )}
-                  </div>
+      <CardContent className={cn(
+        isCompact ? "p-2" : "p-3"
+      )}>
+        <ScrollArea className="h-[calc(100%-2rem)]">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            className="space-y-4"
+          >
+            {/* Total Earnings */}
+            <div className="space-y-2">
+              <div className="flex items-center justify-between">
+                <p className={cn(
+                  "font-medium",
+                  isCompact ? "text-sm" : "text-base"
+                )}>
+                  Total Earnings
+                </p>
+                <div className="flex items-center">
+                  <DollarSign className="h-4 w-4 text-green-500" />
+                  <span className="font-bold">
+                    {metrics.totalEarnings.toLocaleString()}
+                  </span>
                 </div>
-              )
-            })}
-          </div>
+              </div>
+              <Progress value={completionPercentage} className="h-2" />
+              <div className="flex justify-between text-xs text-muted-foreground">
+                <span>Completed: ${metrics.completedPayments.toLocaleString()}</span>
+                <span>Pending: ${metrics.pendingPayments.toLocaleString()}</span>
+              </div>
+            </div>
+
+            {/* Payment Breakdown */}
+            <div className="space-y-2">
+              <div className="flex items-center justify-between text-sm">
+                <span className="text-muted-foreground">Pending Payments</span>
+                <span className="font-medium">${metrics.pendingPayments.toLocaleString()}</span>
+              </div>
+              <div className="flex items-center justify-between text-sm">
+                <span className="text-muted-foreground">Completed Payments</span>
+                <span className="font-medium">${metrics.completedPayments.toLocaleString()}</span>
+              </div>
+              <div className="flex items-center justify-between text-sm">
+                <span className="text-muted-foreground">Projected Earnings</span>
+                <span className="font-medium">${metrics.projectedEarnings.toLocaleString()}</span>
+              </div>
+            </div>
+
+            {/* Progress Indicators */}
+            <div className="grid grid-cols-3 gap-2">
+              <div className="space-y-1">
+                <p className="text-xs text-muted-foreground">Completed</p>
+                <Progress value={65} className="h-1" />
+              </div>
+              <div className="space-y-1">
+                <p className="text-xs text-muted-foreground">Pending</p>
+                <Progress value={35} className="h-1" />
+              </div>
+              <div className="space-y-1">
+                <p className="text-xs text-muted-foreground">Projected</p>
+                <Progress value={85} className="h-1" />
+              </div>
+            </div>
+          </motion.div>
         </ScrollArea>
       </CardContent>
     </Card>

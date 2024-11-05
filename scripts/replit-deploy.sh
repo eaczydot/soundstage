@@ -23,4 +23,4 @@ rm -rf .next/cache
 
 # Start the application
 echo "✨ Starting application..."
-npm run start 
+npm run start
