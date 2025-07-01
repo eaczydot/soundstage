@@ -12,6 +12,7 @@ import {
   Legend
 } from 'recharts'
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
+import { cn } from "@/lib/utils"
 
 const data = [
   { month: 'Jan', revenue: 4000, bookings: 12 },
@@ -22,9 +23,13 @@ const data = [
   { month: 'Jun', revenue: 5500, bookings: 16 },
 ]
 
-export function RevenueChart() {
+interface RevenueChartProps {
+  className?: string
+}
+
+export function RevenueChart({ className }: RevenueChartProps) {
   return (
-    <Card>
+    <Card className={cn(className)}>
       <CardHeader className="flex flex-row items-center justify-between">
         <CardTitle>Revenue Overview</CardTitle>
         <Select defaultValue="6months">

@@ -33,11 +33,12 @@ interface MessageDetailProps {
   message: Message
   onReply?: () => void
   onDelete?: () => void
+  className?: string
 }
 
-export function MessageDetail({ message, onReply, onDelete }: MessageDetailProps) {
+export function MessageDetail({ message, onReply, onDelete, className }: MessageDetailProps) {
   return (
-    <Card>
+    <Card className={cn(className)}>
       <CardHeader className="flex flex-row items-start justify-between space-y-0">
         <div className="flex items-start space-x-4">
           <Avatar className="h-12 w-12">

@@ -7,6 +7,7 @@ import { NotificationsCard } from "./NotificationsCard"
 import { Card } from "@/components/ui/card"
 import { RevenueChart } from "../analytics/RevenueChart"
 import { useStore } from "@/store"
+import { Booking, BookingStatus } from "@/types/booking"
 
 export function DashboardGrid() {
   const [isLoading, setIsLoading] = useState(true)
@@ -17,22 +18,30 @@ export function DashboardGrid() {
     const fetchData = async () => {
       try {
         // In a real app, this would be an API call
-        const mockBookings = [
+        const mockBookings: Booking[] = [
           {
             id: 1,
             venue: "The Blue Note",
             date: "2024-03-20",
             time: "20:00",
-            status: "confirmed",
+            status: "confirmed" as BookingStatus,
             amount: 500,
+            notes: "Standard setup required",
+            requirements: ["Sound system", "Lighting"],
+            venueId: "venue-1",
+            musicianId: "musician-1"
           },
           {
             id: 2,
-            venue: "Jazz Corner",
+            venue: "Jazz Corner", 
             date: "2024-03-25",
             time: "21:30",
-            status: "pending",
+            status: "pending" as BookingStatus,
             amount: 350,
+            notes: "Jazz performance",
+            requirements: ["Piano", "Microphones"],
+            venueId: "venue-2",
+            musicianId: "musician-1"
           },
         ]
         setBookings(mockBookings)

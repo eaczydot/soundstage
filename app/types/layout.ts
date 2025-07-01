@@ -1,3 +1,3 @@
 export interface CompactProps {
-  compact?: boolean | undefined;
+  isCompact?: boolean | undefined;
 } 

@@ -55,32 +55,16 @@ export function CommandMenu(props: DialogProps) {
           <CommandEmpty>No results found.</CommandEmpty>
           <CommandGroup heading="Navigation">
             {routes.map((route) => (
-              <React.Fragment key={route.href}>
-                <CommandItem
-                  onSelect={() => {
-                    setOpen(false)
-                    router.push(route.href)
-                  }}
-                >
-                  <route.icon className="mr-2 h-4 w-4" />
-                  <span>{route.label}</span>
-                </CommandItem>
-                {route.subItems?.map((subItem: any) => (
-                  <CommandItem
-                    key={subItem.href}
-                    onSelect={() => {
-                      setOpen(false)
-                      router.push(subItem.href)
-                    }}
-                    className="ml-4"
-                  >
-                    <span>{subItem.label}</span>
-                    {subItem.shortcut && (
-                      <CommandShortcut>{subItem.shortcut}</CommandShortcut>
-                    )}
-                  </CommandItem>
-                ))}
-              </React.Fragment>
+              <CommandItem
+                key={route.href}
+                onSelect={() => {
+                  setOpen(false)
+                  router.push(route.href)
+                }}
+              >
+                <route.icon className="mr-2 h-4 w-4" />
+                <span>{route.label}</span>
+              </CommandItem>
             ))}
           </CommandGroup>
         </CommandList>

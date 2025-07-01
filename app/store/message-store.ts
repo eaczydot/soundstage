@@ -12,6 +12,8 @@ export interface Attachment {
 export interface Message {
   id: string
   senderId: string
+  senderName: string
+  senderAvatar?: string
   recipientId: string
   subject: string
   content: string

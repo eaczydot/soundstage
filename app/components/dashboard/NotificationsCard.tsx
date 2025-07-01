@@ -19,7 +19,11 @@ interface Notification {
   urgent?: boolean
 }
 
-export function NotificationsCard({ isCompact }: CompactProps) {
+interface NotificationsCardProps extends CompactProps {
+  className?: string
+}
+
+export function NotificationsCard({ isCompact, className }: NotificationsCardProps) {
   const [notifications, setNotifications] = useState<Notification[]>([
     {
       id: '1',
@@ -71,7 +75,7 @@ export function NotificationsCard({ isCompact }: CompactProps) {
   }
 
   return (
-    <ScrollArea className="h-[calc(100%-2rem)] px-1">
+    <ScrollArea className={cn("h-[calc(100%-2rem)] px-1", className)}>
       <div className="space-y-2">
         <AnimatePresence>
           {notifications.map((notification, index) => {

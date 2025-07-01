@@ -11,7 +11,7 @@ import {
 import { useNotifications } from "@/hooks/use-notifications"
 import { Badge } from "@/components/ui/badge"
 import { ScrollArea } from "@/components/ui/scroll-area"
-import { formatRelativeTime } from "@/lib/utils"
+import { formatRelativeTime, cn } from "@/lib/utils"
 import { useRouter } from "next/navigation"
 
 export function NotificationDropdown() {

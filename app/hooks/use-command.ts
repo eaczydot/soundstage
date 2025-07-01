@@ -4,27 +4,14 @@ import Fuse from 'fuse.js'
 import { routes } from '@/config/routes'
 
 // Flatten routes for searching
-const flattenedRoutes = routes.reduce((acc: any[], route) => {
-  acc.push({
-    label: route.label,
-    href: route.href,
-    icon: route.icon,
-    keywords: route.keywords || [],
-  })
-  if (route.subItems) {
-    route.subItems.forEach((subItem: any) => {
-      acc.push({
-        label: `${route.label} > ${subItem.label}`,
-        href: subItem.href,
-        keywords: subItem.keywords || [],
-      })
-    })
-  }
-  return acc
-}, [])
+const flattenedRoutes = routes.map(route => ({
+  label: route.label,
+  href: route.href,
+  icon: route.icon,
+}))
 
 const fuse = new Fuse(flattenedRoutes, {
-  keys: ['label', 'keywords'],
+  keys: ['label'],
   threshold: 0.3,
 })
 

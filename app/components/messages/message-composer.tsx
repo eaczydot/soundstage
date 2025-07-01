@@ -16,7 +16,12 @@ interface Attachment {
   type: string
 }
 
-export function MessageComposer() {
+interface MessageComposerProps {
+  recipientId?: string
+  onClose?: () => void
+}
+
+export function MessageComposer({ recipientId, onClose }: MessageComposerProps) {
   const [attachments, setAttachments] = useState<Attachment[]>([])
   const [subject, setSubject] = useState("")
   const [content, setContent] = useState("")
@@ -47,7 +52,14 @@ export function MessageComposer() {
   return (
     <Card>
       <CardHeader>
-        <CardTitle>New Message</CardTitle>
+        <div className="flex items-center justify-between">
+          <CardTitle>New Message</CardTitle>
+          {onClose && (
+            <Button variant="ghost" size="icon" onClick={onClose}>
+              <X className="h-4 w-4" />
+            </Button>
+          )}
+        </div>
       </CardHeader>
       <CardContent>
         <form onSubmit={handleSubmit} className="space-y-4">

@@ -4,7 +4,7 @@ import { Card } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
 import { Calendar, Clock, MapPin, Music, DollarSign, FileText } from "lucide-react"
-import { Booking } from "@/types"
+import { Booking } from "@/types/booking"
 
 interface BookingOverviewProps {
   booking: Booking
@@ -18,7 +18,7 @@ export function BookingOverview({ booking }: BookingOverviewProps) {
         <div className="space-y-4">
           <div className="flex items-center gap-2">
             <MapPin className="h-4 w-4 text-muted-foreground" />
-            <span>{booking.venue}</span>
+            <span>{booking.venue || booking.venueId || 'Venue TBD'}</span>
           </div>
           <div className="flex items-center gap-2">
             <Calendar className="h-4 w-4 text-muted-foreground" />
@@ -30,7 +30,7 @@ export function BookingOverview({ booking }: BookingOverviewProps) {
           </div>
           <div className="flex items-center gap-2">
             <DollarSign className="h-4 w-4 text-muted-foreground" />
-            <span>Payment: ${booking.amount}</span>
+            <span>Payment: ${booking.amount || 0}</span>
           </div>
           <div className="flex items-center gap-2">
             <FileText className="h-4 w-4 text-muted-foreground" />
