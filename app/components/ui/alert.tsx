@@ -45,20 +45,7 @@ const AlertTitle = React.forwardRef<
     className={cn("mb-1 font-medium leading-none tracking-tight", className)}
     {...props}
   >
-    {variant => {
-      const Icon = {
-        default: Info,
-        destructive: XCircle,
-        success: CheckCircle2,
-        warning: AlertCircle,
-      }[variant || "default"]
-      return (
-        <>
-          <Icon className="h-4 w-4" />
-          {children}
-        </>
-      )
-    }}
+    {children}
   </h5>
 ))
 AlertTitle.displayName = "AlertTitle"

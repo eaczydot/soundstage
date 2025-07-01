@@ -51,11 +51,15 @@ const routes = [
   },
 ]
 
-export function MainNav() {
+interface MainNavProps {
+  className?: string
+}
+
+export function MainNav({ className }: MainNavProps) {
   const pathname = usePathname()
 
   return (
-    <nav className="flex items-center space-x-6">
+    <nav className={cn("flex items-center space-x-6", className)}>
       {routes.map((route) => (
         <Link
           key={route.href}

@@ -65,9 +65,7 @@ export function PerformanceCalendar() {
         selectMirror={true}
         dayMaxEvents={true}
         weekends={true}
-        // Theme customization
         themeSystem='standard'
-        className="fc-theme-custom"
       />
 
       <style jsx global>{`

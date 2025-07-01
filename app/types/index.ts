@@ -21,6 +21,13 @@ export interface NotificationPreferences {
   marketingUpdates: boolean
 }
 
+export interface PayoutSchedule {
+  frequency: 'weekly' | 'monthly' | 'manual'
+  dayOfWeek?: number // 0-6 for weekly
+  dayOfMonth?: number // 1-31 for monthly
+  minimumAmount?: number
+}
+
 export interface Booking {
   id: string
   venueId: string
@@ -59,6 +66,21 @@ export interface Equipment {
   type: EquipmentType
   status: 'available' | 'unavailable' | 'maintenance'
   specifications?: Record<string, string>
+}
+
+export interface VenueRequirement {
+  id: string
+  name: string
+  required: boolean
+  description?: string
+}
+
+export interface Contact {
+  id: string
+  name: string
+  email: string
+  phone?: string
+  role: string
 }
 
 export type EquipmentType = 'instrument' | 'sound' | 'lighting' | 'stage' | 'other'

@@ -160,7 +160,7 @@ export function DashboardLayout() {
           <MobileDrawer 
             isOpen={isDrawerOpen}
             onClose={() => setIsDrawerOpen(false)}
-            activePanel={activePanel}
+            activePanel={activePanel === 'main' ? 'notifications' : activePanel}
             onPanelChange={setActivePanel}
             isCompact={isCompact}
           />
@@ -179,7 +179,7 @@ export function DashboardLayout() {
               <MessageSquare className="h-4 w-4" />
               <span className="text-[10px]">Messages</span>
             </Button>
-            <Button variant="primary" size="sm" className="flex flex-col gap-1">
+            <Button variant="default" size="sm" className="flex flex-col gap-1">
               <Plus className="h-4 w-4" />
               <span className="text-[10px]">New</span>
             </Button>

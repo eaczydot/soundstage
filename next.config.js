@@ -2,8 +2,13 @@
 const nextConfig = {
   reactStrictMode: true,
   experimental: {
-    optimizeCss: true,
-    legacyBrowsers: false,
+    optimizeCss: false, // Disable CSS optimization to fix critters issue
+  },
+  compiler: {
+    removeConsole: process.env.NODE_ENV === 'production',
+  },
+  images: {
+    domains: ['localhost'],
   },
 }
 
