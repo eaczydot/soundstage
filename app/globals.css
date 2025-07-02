@@ -24,6 +24,10 @@
     --input: 240 5.9% 90%;
     --ring: 240 5.9% 10%;
     --radius: 0.5rem;
+    /* Fey Finance theme tokens */
+    --fey-bg: 0 0% 100%;
+    --fey-card: 0 0% 100%;
+    --fey-accent: 264 80% 50%;
   }
 
   .dark {
@@ -46,6 +50,10 @@
     --border: 240 3.7% 15.9%;
     --input: 240 3.7% 15.9%;
     --ring: 240 4.9% 83.9%;
+    /* Fey Finance theme tokens (dark) */
+    --fey-bg: 240 10% 4%;
+    --fey-card: 240 12% 8%;
+    --fey-accent: 260 98% 67%;
   }
 }
 

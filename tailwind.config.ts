@@ -52,6 +52,9 @@ const config = {
           DEFAULT: "hsl(var(--card))",
           foreground: "hsl(var(--card-foreground))",
         },
+        "fey-bg": "hsl(var(--fey-bg))",
+        "fey-card": "hsl(var(--fey-card))",
+        "fey-accent": "hsl(var(--fey-accent))",
       },
       borderRadius: {
         lg: "var(--radius)",

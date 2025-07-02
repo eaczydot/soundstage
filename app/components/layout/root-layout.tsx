@@ -6,6 +6,7 @@ import { cn } from "@/lib/utils"
 import { motion } from "framer-motion"
 import { usePathname } from "next/navigation"
 import { useDashboardState } from "@/hooks/use-dashboard-state"
+import { BottomDock } from "./bottom-dock"
 
 export function RootLayout({ children }: { children: React.ReactNode }) {
   const pathname = usePathname()
@@ -33,6 +34,7 @@ export function RootLayout({ children }: { children: React.ReactNode }) {
           </motion.main>
         </div>
       </div>
+      <BottomDock />
     </div>
   )
 } 
