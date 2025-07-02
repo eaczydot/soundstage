@@ -131,3 +131,50 @@ Here’s a comprehensive set of development instructions tailored for Cursor to 
 ---
 
 This setup gives you a streamlined, component-based architecture to quickly develop a high-quality MVP on Cursor with industry-inspired styling and best practices for scalability. Let me know if you need guidance on specific aspects!
+
+---
+
+### **Fey Finance UI Adaptation Plan (Imported 2025-07-02)**
+
+This addendum documents how the Fey Finance dashboard aesthetic will be translated into the Soundstage musician- & venue-management platform.
+
+1. **Global Theme**  
+   • Adopt deep-black surfaces, vibrant accent palette and thin sans-serif typography.  
+   • Introduce a floating **BottomDock** for Home, Bookings, Calendar, Payments, Messages and Settings.
+
+2. **Home Dashboard Enhancements**  
+   • Replace market chart with `DashboardRevenueChart` (ticket & merch revenue).  
+   • Add `CategoryPerformanceList` showing booking distribution by gig type/venue.  
+   • Inject `DailyRecapCard` (AI-generated reminders & insights).
+
+3. **Gig Finder Table** (Stock Finder analogue)  
+   • Sticky header, pill status badges, sortable columns (Venue, Location, Date, Status, Fee, Urgency%).  
+   • "Start searching" → "New enquiry".
+
+4. **Portfolio / Repertoire Sync Page**  
+   • Dual-card layout for manual repertoire upload and Spotify/Apple Music import.
+
+5. **Performance Comparison Graph**  
+   • Multi-series overlay (Ticket Sales, Merch, Social Engagement) with timeframe chips (1D…10Y).
+
+6. **Earnings & Payouts**  
+   • Upcoming payout milestones calendar, bar chart for paid vs. pending payouts.
+
+7. **Settings & Billing**  
+   • Tiles for subscription plan, payment method, referral program; options toggles replicate Fey layout.
+
+8. **Booking Detail View**  
+   • Hero gig timeline chart, `PayoutYieldChart`, and `VenuePeerAnalysis` table.
+
+9. **Micro-interaction Guidelines**  
+   • Card hover shadows & scale, command-menu blur backdrop, keyboard hint overlay.
+
+10. **Two-Week Implementation Road-map**  
+   1. Configure Tailwind colour tokens (`fey-bg`, `fey-card`, `fey-accent`).  
+   2. Build **BottomDock** (mobile-first).  
+   3. Develop new dashboard widgets (RevenueChart, CategoryPerformanceList, DailyRecapCard).  
+   4. Implement **Gig Finder** table component.  
+   5. Create **PerformanceComparison** page.  
+   6. Refactor Settings screen.
+
+*End of Fey adaptation addendum.*
