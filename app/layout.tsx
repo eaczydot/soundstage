@@ -3,6 +3,7 @@ import type { Metadata } from 'next'
 import { Inter } from 'next/font/google'
 import { ToastProvider } from "@/components/providers/toast-provider"
 import { TooltipProvider } from "@/components/ui/tooltip"
+import { BottomDock } from "@/components/layout/bottom-dock"
 
 const inter = Inter({ subsets: ['latin'] })
 
@@ -22,6 +23,7 @@ export default function RootLayout({
         <TooltipProvider>
           <ToastProvider />
           {children}
+          <BottomDock />
         </TooltipProvider>
       </body>
     </html>

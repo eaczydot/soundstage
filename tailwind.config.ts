@@ -52,6 +52,22 @@ const config = {
           DEFAULT: "hsl(var(--card))",
           foreground: "hsl(var(--card-foreground))",
         },
+        // Fey-inspired colors
+        'fey-bg': {
+          DEFAULT: '#0D0D0D',
+          secondary: '#131313',
+          tertiary: '#1A1A1A',
+        },
+        'fey-card': {
+          DEFAULT: '#1A1A1A',
+          hover: '#212121',
+        },
+        'fey-accent': {
+          green: '#00FF88',
+          purple: '#8B5CF6',
+          cyan: '#00F5FF',
+          blue: '#0EA5E9',
+        },
       },
       borderRadius: {
         lg: "var(--radius)",

@@ -27,25 +27,25 @@
   }
 
   .dark {
-    --background: 240 10% 3.9%;
+    --background: 0 0% 5.1%; /* Deep black (#0D0D0D) */
     --foreground: 0 0% 98%;
-    --card: 240 10% 3.9%;
+    --card: 0 0% 10.2%; /* Fey card background (#1A1A1A) */
     --card-foreground: 0 0% 98%;
-    --popover: 240 10% 3.9%;
+    --popover: 0 0% 7.5%; /* Slightly lighter than background */
     --popover-foreground: 0 0% 98%;
-    --primary: 0 0% 98%;
-    --primary-foreground: 240 5.9% 10%;
-    --secondary: 240 3.7% 15.9%;
+    --primary: 142 100% 50%; /* Fey accent green */
+    --primary-foreground: 0 0% 5.1%;
+    --secondary: 0 0% 13.1%; /* Fey hover card */
     --secondary-foreground: 0 0% 98%;
-    --muted: 240 3.7% 15.9%;
-    --muted-foreground: 240 5% 64.9%;
-    --accent: 240 3.7% 15.9%;
+    --muted: 0 0% 13.1%;
+    --muted-foreground: 0 0% 64.9%;
+    --accent: 271 91% 65%; /* Fey accent purple */
     --accent-foreground: 0 0% 98%;
     --destructive: 0 62.8% 30.6%;
     --destructive-foreground: 0 0% 98%;
-    --border: 240 3.7% 15.9%;
-    --input: 240 3.7% 15.9%;
-    --ring: 240 4.9% 83.9%;
+    --border: 0 0% 13.1%;
+    --input: 0 0% 13.1%;
+    --ring: 142 100% 50%; /* Match primary */
   }
 }
 
@@ -55,5 +55,50 @@
   }
   body {
     @apply bg-background text-foreground;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Helvetica Neue', Arial, sans-serif;
+    letter-spacing: -0.01em;
+  }
+}
+
+@layer components {
+  /* Fey-inspired card hover effects */
+  .fey-card {
+    @apply bg-fey-card border border-white/5 transition-all duration-200;
+  }
+  
+  .fey-card:hover {
+    @apply bg-fey-card-hover shadow-lg scale-[1.02];
+    box-shadow: 0 8px 32px rgba(255, 255, 255, 0.05);
+  }
+
+  /* Fey-inspired glass morphism */
+  .fey-glass {
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    background: rgba(26, 26, 26, 0.8);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+  }
+
+  /* Fey accent pill badges */
+  .fey-pill {
+    @apply inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium;
+  }
+  
+  .fey-pill-green {
+    @apply bg-fey-accent-green/20 text-fey-accent-green border border-fey-accent-green/30;
+  }
+  
+  .fey-pill-purple {
+    @apply bg-fey-accent-purple/20 text-fey-accent-purple border border-fey-accent-purple/30;
+  }
+  
+  .fey-pill-cyan {
+    @apply bg-fey-accent-cyan/20 text-fey-accent-cyan border border-fey-accent-cyan/30;
+  }
+
+  /* Thin typography for headings */
+  .fey-heading {
+    font-weight: 300;
+    letter-spacing: 0.02em;
   }
 }
